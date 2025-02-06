@@ -18,11 +18,8 @@ public class ScoreDisplay : MonoBehaviour
 
 
 
-    public static void UpdateText(int score)
-    {
-        scoreText.text = score.ToString();
-    }
+    public static void UpdateText(int score) => scoreText.text = score.ToString();
 
-
+    public static void ScaleText(Vector3 targetScale) => scoreText.rectTransform.localScale = targetScale;
 
 }
