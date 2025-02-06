@@ -18,6 +18,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float maxFireInterval; // 最大射击间隔时间
     [SerializeField] private AudioData[] projectileLaunchSFX; // 子弹发射音效
 
+    float maxMoveDistancePerFrame;
+
+    WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+    void Start()
+    {
+        maxMoveDistancePerFrame = moveSpeed * Time.fixedDeltaTime;
+    }
+
     void OnEnable()
     {
         StartCoroutine(nameof(RandomlyMovingCoroutine));
@@ -39,16 +47,16 @@ public class EnemyController : MonoBehaviour
 
         while (gameObject.activeSelf)
         {
-            if (Vector3.Distance(transform.position, targetPosition) > Mathf.Epsilon)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            if (Vector3.Distance(transform.position, targetPosition) >= maxMoveDistancePerFrame)
+            {   // moveSpeed * Time.fixedDeltaTime
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, maxMoveDistancePerFrame);
                 transform.rotation = Quaternion.AngleAxis((targetPosition - transform.position).normalized.y * moveRotationAngle, Vector3.right);
             }
             else
             {
                 targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
             }
-            yield return null;
+            yield return waitForFixedUpdate;
         }
     }
 
