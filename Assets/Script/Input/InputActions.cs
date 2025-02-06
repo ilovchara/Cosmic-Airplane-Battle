@@ -53,6 +53,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Overdrive"",
+                    ""type"": ""Button"",
+                    ""id"": ""87243b47-edba-45d3-b8c9-3b0b130bbfb5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -187,6 +196,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41054901-f307-4941-a605-3524c20b6e2a"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Overdrive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -215,6 +235,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_Overdrive = m_Gameplay.FindAction("Overdrive", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -284,6 +305,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Fire;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_Overdrive;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -291,6 +313,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @Overdrive => m_Wrapper.m_Gameplay_Overdrive;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,6 +332,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dodge.started += instance.OnDodge;
             @Dodge.performed += instance.OnDodge;
             @Dodge.canceled += instance.OnDodge;
+            @Overdrive.started += instance.OnOverdrive;
+            @Overdrive.performed += instance.OnOverdrive;
+            @Overdrive.canceled += instance.OnOverdrive;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -322,6 +348,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Dodge.started -= instance.OnDodge;
             @Dodge.performed -= instance.OnDodge;
             @Dodge.canceled -= instance.OnDodge;
+            @Overdrive.started -= instance.OnOverdrive;
+            @Overdrive.performed -= instance.OnOverdrive;
+            @Overdrive.canceled -= instance.OnOverdrive;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -353,5 +382,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnOverdrive(InputAction.CallbackContext context);
     }
 }

@@ -9,6 +9,7 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
     InputActions inputActions;
     // 点击后触发的事件
     public event UnityAction<Vector2> onMove = delegate { };
+
     public event UnityAction onStopMove = delegate { };
 
     public event UnityAction onFire = delegate { };
@@ -16,6 +17,8 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
     public event UnityAction onStopFire = delegate { };
 
     public event UnityAction onDodge = delegate { };
+
+    public event UnityAction onOverdrive = delegate { };
 
     #region Unity Lifecycle Methods
 
@@ -100,6 +103,14 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
         if (context.performed)
         {
             onDodge.Invoke();
+        }
+    }
+
+    public void OnOverdrive(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            onOverdrive.Invoke();
         }
     }
 
