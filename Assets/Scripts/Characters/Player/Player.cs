@@ -34,6 +34,8 @@ public class Player : Character
     [SerializeField, Range(0, 2)] private int weaponPower = 0;
     [SerializeField] private AudioData projectileLaunchSFX;
 
+    [SerializeField] private GameObject projectileOverdrive;
+
     [Header("--- Dodge Settings ---")]
     [SerializeField] private AudioData dodgeSFX;
     [SerializeField] private int dodgeEnergyCost = 25;
@@ -239,31 +241,33 @@ public class Player : Character
         StopCoroutine(nameof(FireCoroutine));
     }
 
-    IEnumerator FireCoroutine()
+IEnumerator FireCoroutine()
+{
+    while (true)
     {
-        while (true)
+        switch (weaponPower)
         {
-            switch (weaponPower)
-            {
-                case 0:
-                    PoolManager.Release(projectile2, muzzleMiddle.position);  // Single shot
-                    break;
-                case 1:
-                    PoolManager.Release(projectile1, muzzleTop.position);  // Double shot
-                    PoolManager.Release(projectile3, muzzleBottom.position);
-                    break;
-                case 2:
-                    PoolManager.Release(projectile1, muzzleTop.position);  // Triple shot
-                    PoolManager.Release(projectile3, muzzleBottom.position);
-                    PoolManager.Release(projectile2, muzzleMiddle.position);
-                    break;
-                default:
-                    break;
-            }
-            AudioManager.Instance.PlayRandomSFX(projectileLaunchSFX);
-            yield return isOverdriving ? waitForFireInterval : waitForFireInterval;
+            case 0:
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
+                break;
+            case 1:
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleTop.position);
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleBottom.position);
+                break;
+            case 2:
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleTop.position);
+                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile3, muzzleBottom.position);
+                break;
+            default:
+                break;
         }
+
+        AudioManager.Instance.PlayRandomSFX(projectileLaunchSFX);
+
+        yield return isOverdriving ? waitForOverdriveFireInterval : waitForFireInterval;
     }
+}
     #endregion
 
     #region DODGE 

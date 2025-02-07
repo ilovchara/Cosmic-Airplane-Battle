@@ -36,6 +36,7 @@ public class PlayerOverdrive : MonoBehaviour
     // 退出过载模式的处理
     void Off()
     {
+        triggerVFX.SetActive(false); // 启动过载特效
         engineVFXOverdrive.SetActive(false); // 关闭过载引擎特效
         engineVFXNormal.SetActive(true); // 启动普通引擎特效
         AudioManager.Instance.PlayRandomSFX(offSFX); // 播放过载模式关闭音效
