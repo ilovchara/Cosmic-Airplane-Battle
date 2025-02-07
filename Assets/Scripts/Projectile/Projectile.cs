@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+            Move();
             yield return null;
         }
     }
@@ -52,4 +52,8 @@ public class Projectile : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    protected void SetTarget(GameObject target) => this.target = target;
+    public void Move() => transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
 }

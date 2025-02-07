@@ -8,7 +8,7 @@ public class EnemyProjectile_Aiming : Projectile
     // 该方法在脚本实例被加载时调用一次
     void Awake()
     {
-        target = GameObject.FindGameObjectWithTag("Player");
+        SetTarget(GameObject.FindGameObjectWithTag("Player"));
     }
 
     // 重写OnEnable方法，当脚本启用时调用

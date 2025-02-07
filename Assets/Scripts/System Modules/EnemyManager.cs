@@ -5,6 +5,7 @@ using UnityEngine;
 // EnemyManager类继承自Singleton<EnemyManager>，确保该类是一个单例，且在游戏中只存在一个实例
 public class EnemyManager : Singleton<EnemyManager>
 {
+    public GameObject RandomEnemy => enemyList.Count == 0 ? null : enemyList[Random.Range(0, enemyList.Count)];
     [Header(" --- UI ---")]
     public int WaveNumber => waveNumber;
     public float TimeBetweenWaves => timeBetweenWaves;

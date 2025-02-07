@@ -343,7 +343,7 @@ MonoBehaviour:
   - prefab: {fileID: 5060298685065931927, guid: 6775c68a79b34db4fa2fd4db2a4cdf74, type: 3}
     size: 27
   - prefab: {fileID: 5060298685065931927, guid: e5ad727d78baa394ca4cda0a88e9a060, type: 3}
-    size: 27
+    size: 58
   lootItemPools: []
 --- !u!4 &227110714
 Transform:
@@ -386,11 +386,11 @@ Transform:
   m_GameObject: {fileID: 324251145}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.47455573, y: 5.1317816, z: -0.98875725}
+  m_LocalPosition: {x: 3.5426815, y: 4.4304833, z: -1.005924}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 630232163}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &324251147
 MonoBehaviour:
@@ -975,8 +975,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 324251146}
-  - {fileID: 1503856061}
   - {fileID: 960878241}
   - {fileID: 227110714}
   - {fileID: 1736585285}
@@ -1411,13 +1409,13 @@ Transform:
   m_GameObject: {fileID: 1503856059}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.886453, y: 1.5465219, z: -1.0041146}
+  m_LocalPosition: {x: -0.86921597, y: 0.84522367, z: -1.0212814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 333026018}
   - {fileID: 1184658050}
-  m_Father: {fileID: 630232163}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1503856062
 MonoBehaviour:
@@ -125359,3 +125357,5 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 6435389010157472762}
   - {fileID: 630232163}
+  - {fileID: 324251146}
+  - {fileID: 1503856061}

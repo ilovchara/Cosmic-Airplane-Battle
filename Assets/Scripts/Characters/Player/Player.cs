@@ -153,7 +153,7 @@ public class Player : Character
             StopCoroutine(moveCoroutine);
         }
         moveCoroutine = StartCoroutine(MoveCoroutine(accelerationTime, moveInput.normalized * moveSpeed));
-        StartCoroutine(MovePositionLimitCoroutine());
+        StartCoroutine(MoveRangeLimitCoroutine());
 
         if (moveInput.y > 0)
         {
@@ -177,7 +177,7 @@ public class Player : Character
             StopCoroutine(moveCoroutine);
         }
         moveCoroutine = StartCoroutine(MoveCoroutine(decelerationTime, Vector2.zero));
-        StopCoroutine(nameof(MovePositionLimitCoroutine));
+        StopCoroutine(nameof(MoveRangeLimitCoroutine));
         StartCoroutine(SmoothTiltCoroutine(0));
     }
 
@@ -217,7 +217,7 @@ public class Player : Character
         transform.eulerAngles = new Vector3(targetTilt, transform.eulerAngles.y, transform.eulerAngles.z);
     }
 
-    private IEnumerator MovePositionLimitCoroutine()
+    private IEnumerator MoveRangeLimitCoroutine()
     {
         while (true)
         {
@@ -241,34 +241,40 @@ public class Player : Character
         StopCoroutine(nameof(FireCoroutine));
     }
 
-IEnumerator FireCoroutine()
-{
-    while (true)
+    IEnumerator FireCoroutine()
     {
-        switch (weaponPower)
+        while (true)
         {
-            case 0:
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
-                break;
-            case 1:
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleTop.position);
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleBottom.position);
-                break;
-            case 2:
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleTop.position);
-                PoolManager.Release(isOverdriving ? projectileOverdrive : projectile3, muzzleBottom.position);
-                break;
-            default:
-                break;
+            switch (weaponPower)
+            {
+                case 0:
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
+                    break;
+                case 1:
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleTop.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleBottom.position);
+                    break;
+                case 2:
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleTop.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile3, muzzleBottom.position);
+                    break;
+                default:
+                    break;
+            }
+
+            AudioManager.Instance.PlayRandomSFX(projectileLaunchSFX);
+
+            yield return isOverdriving ? waitForOverdriveFireInterval : waitForFireInterval;
         }
-
-        AudioManager.Instance.PlayRandomSFX(projectileLaunchSFX);
-
-        yield return isOverdriving ? waitForOverdriveFireInterval : waitForFireInterval;
     }
-}
+
     #endregion
+
+
+
+
+
 
     #region DODGE 
 

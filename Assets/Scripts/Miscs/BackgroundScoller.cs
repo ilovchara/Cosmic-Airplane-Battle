@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 // 简单滚动
 public class BackgroundScoller : MonoBehaviour
@@ -6,15 +7,22 @@ public class BackgroundScoller : MonoBehaviour
     [SerializeField] Vector2 scroVelocity;
 
     public Material material;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void Awake()
     {
         material = GetComponent<Renderer>().material;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    IEnumerator Start()
     {
-        material.mainTextureOffset += scroVelocity * Time.deltaTime;
+        while(true)
+        {
+            material.mainTextureOffset += scroVelocity * Time.deltaTime;
+            yield return null;
+        }
     }
+
+
 }

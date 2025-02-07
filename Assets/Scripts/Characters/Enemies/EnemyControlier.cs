@@ -5,6 +5,7 @@ using UnityEngine;
 /// 敌人控制脚本，控制敌人的随机移动和随机射击
 public class EnemyController : MonoBehaviour
 {
+    
     [Header("---- Movement Settings ----")]
     [SerializeField] private float paddingX; // X 轴的边距
     [SerializeField] private float paddingY; // Y 轴的边距
