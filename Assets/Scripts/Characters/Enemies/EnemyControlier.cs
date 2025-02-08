@@ -5,10 +5,8 @@ using UnityEngine;
 /// 敌人控制脚本，控制敌人的随机移动和随机射击
 public class EnemyController : MonoBehaviour
 {
-    
+
     [Header("---- Movement Settings ----")]
-    [SerializeField] private float paddingX; // X 轴的边距
-    [SerializeField] private float paddingY; // Y 轴的边距
     [SerializeField] private float moveSpeed = 2f; // 敌人移动速度
     [SerializeField] private float moveRotationAngle = 25f; // 移动时的旋转角度
 
@@ -19,12 +17,16 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float maxFireInterval; // 最大射击间隔时间
     [SerializeField] private AudioData[] projectileLaunchSFX; // 子弹发射音效
 
-    float maxMoveDistancePerFrame;
+    private float paddingX; // X 轴的边距
+    private float paddingY; // Y 轴的边距
 
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
-    void Start()
+
+    void Awake()
     {
-        maxMoveDistancePerFrame = moveSpeed * Time.fixedDeltaTime;
+        var size = transform.GetChild(0).GetComponent<Renderer>().bounds.size;
+        paddingX = size.x / 2f;
+        paddingY = size.y / 2f;
     }
 
     void OnEnable()
@@ -48,9 +50,9 @@ public class EnemyController : MonoBehaviour
 
         while (gameObject.activeSelf)
         {
-            if (Vector3.Distance(transform.position, targetPosition) >= maxMoveDistancePerFrame)
+            if (Vector3.Distance(transform.position, targetPosition) >= moveSpeed * Time.fixedDeltaTime)
             {   // moveSpeed * Time.fixedDeltaTime
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, maxMoveDistancePerFrame);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.fixedDeltaTime);
                 transform.rotation = Quaternion.AngleAxis((targetPosition - transform.position).normalized.y * moveRotationAngle, Vector3.right);
             }
             else

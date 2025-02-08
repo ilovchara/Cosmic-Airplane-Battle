@@ -17,8 +17,6 @@ public class Player : Character
 
     [Header("--- Movement Settings ---")]
     [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float paddingX;
-    [SerializeField] private float paddingY;
     [SerializeField] private float accelerationTime = 3f;
     [SerializeField] private float decelerationTime = 3f;
     [SerializeField] private float tiltAngle;
@@ -64,6 +62,11 @@ public class Player : Character
     private Coroutine moveCoroutine;
     private Coroutine healthRegenerateCoroutine;
 
+    readonly float slowMotionDuration = 0.5f;
+    readonly float slowMotionDurationDoDge = 0.25f;
+
+    private float paddingX;
+    private float paddingY;
 
     void Start()
     {
@@ -84,6 +87,10 @@ public class Player : Character
         waitForFireInterval = new WaitForSeconds(fireInterval);  // Set fire interval
         waitForOverdriveFireInterval = new WaitForSeconds(fireInterval / overdriveFireFactor);
         waitHealthRegenerateTime = new WaitForSeconds(healthRegenerateTime);  // Set health regeneration time
+
+        var size = transform.GetChild(0).GetComponent<Renderer>().bounds.size;
+        paddingX = size.x/2f;
+        paddingY = size.y/2f;
     }
 
     [System.Obsolete]
@@ -271,11 +278,6 @@ public class Player : Character
 
     #endregion
 
-
-
-
-
-
     #region DODGE 
 
     void Dodge()
@@ -291,6 +293,7 @@ public class Player : Character
         PlayerEnergy.Instance.Use(dodgeEnergyCost);
         collider.isTrigger = true;
         currentRoll = 0f;
+        TimeController.Instance.BulletTime(slowMotionDurationDoDge, slowMotionDurationDoDge);
         while (currentRoll < maxRoll)
         {
             currentRoll += rollSpeed * Time.deltaTime;
@@ -305,7 +308,7 @@ public class Player : Character
 
     #endregion
 
-    #region  OVERDRIVE
+    #region OVERDRIVE
     void Overdrive()
     {
         if (!PlayerEnergy.Instance.IsEnough(PlayerEnergy.MAX)) return;
@@ -318,6 +321,7 @@ public class Player : Character
         isOverdriving = true;
         dodgeEnergyCost *= overdriveDodgeFactor;
         moveSpeed *= overdriveSpeedFactor;
+        TimeController.Instance.BulletTime(slowMotionDuration, slowMotionDuration);
     }
 
     void OverdirveOff()
