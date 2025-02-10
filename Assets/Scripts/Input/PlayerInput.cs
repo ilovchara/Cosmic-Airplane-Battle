@@ -1,10 +1,13 @@
+using System;
+using TMPro;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 // 这个类是输入效果，供别的类继承使用这些方法 - 使用的方式是订阅委托
 [CreateAssetMenu(menuName = "Player Input")]
-public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
+public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, InputActions.IPauseMenuActions
 {
     InputActions inputActions;
     // 点击后触发的事件
@@ -20,6 +23,10 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
 
     public event UnityAction onOverdrive = delegate { };
 
+    public event UnityAction onPause = delegate { };
+
+    public event UnityAction onUnpause = delegate { };
+
     #region Unity Lifecycle Methods
 
     private void OnEnable()
@@ -27,6 +34,7 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
         inputActions = new InputActions();
         // 将回调事件绑定到当前类的实现方法上。
         inputActions.Gameplay.SetCallbacks(this);
+        inputActions.PauseMenu.SetCallbacks(this);
     }
 
     private void OnDisable()
@@ -38,23 +46,33 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
 
     #region Input Control
 
-    /// <summary>
-    /// 禁用所有输入。
-    /// </summary>
-    public void DisableAllInputs()
+    void SwitchActionMap(InputActionMap actionMap, bool isUIInput)
     {
-        inputActions.Gameplay.Disable();
+        inputActions.Disable();
+        actionMap.Enable();
+
+        if (isUIInput)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
-    /// <summary>
-    /// 启用游戏输入并隐藏鼠标。
-    /// </summary>
-    public void EnableGameplayInput()
-    {
-        inputActions.Gameplay.Enable();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+    public void SwitchToDynamicUpdateMode() => InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInDynamicUpdate;
+
+    public void SwitchToFixedUpdateMode() => InputSystem.settings.updateMode = InputSettings.UpdateMode.ProcessEventsInFixedUpdate;
+
+
+    public void DisableAllInputs() => inputActions.Disable();
+
+    public void EnableGameplayInput() => SwitchActionMap(inputActions.Gameplay, false);
+
+    public void EnablePauseMenuInput() => SwitchActionMap(inputActions.PauseMenu, true);
 
     #endregion
 
@@ -108,9 +126,25 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions
 
     public void OnOverdrive(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
         {
             onOverdrive.Invoke();
+        }
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            onPause.Invoke();
+        }
+    }
+
+    public void OnUnpause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            onUnpause.Invoke();
         }
     }
 
