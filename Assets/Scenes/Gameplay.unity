@@ -101112,9 +101112,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 592964943}
     m_Modifications:
+    - target: {fileID: 1677894680922119994, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
+      propertyPath: m_AnimationTriggers.m_HighlightedTrigger
+      value: Selected
+      objectReference: {fileID: 0}
     - target: {fileID: 1991688341572390734, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
       propertyPath: m_Text
       value: Resume
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525860207185437271, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4628526641841767778, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
       propertyPath: m_Pivot.x
@@ -101199,6 +101207,14 @@ PrefabInstance:
     - target: {fileID: 8497925088940847640, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
       propertyPath: m_Name
       value: Button Resume
+      objectReference: {fileID: 0}
+    - target: {fileID: 8497925088940847640, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9216978973730394562, guid: 84c71b7c401c7bb4091f4c8698bcf500, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
