@@ -1,14 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class MainMenuUIController : MonoBehaviour
 {
     [SerializeField] Button buttonStartGame;
-
+ 
     void OnEnable()
     {
-        buttonStartGame.onClick.AddListener(OnStartGameButtononClick);
+        buttonStartGame.onClick.AddListener(OnStartGameButtononClick);     
     }
 
     void OnDisable()

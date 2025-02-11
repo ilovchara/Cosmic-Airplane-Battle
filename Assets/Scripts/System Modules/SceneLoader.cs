@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : PersistentSingleton<SceneLoader>
 {
     [SerializeField] UnityEngine.UI.Image transitionImage;
-    [SerializeField] float fadeTime = 3.5f;
+    [SerializeField] float fadeTime = 2f;
 
     Color color;
 

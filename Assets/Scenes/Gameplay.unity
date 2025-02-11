@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 300336505}
   - component: {fileID: 300336504}
   - component: {fileID: 300336503}
+  - component: {fileID: 300336506}
   m_Layer: 5
   m_Name: EventSystem
   m_TagString: Untagged
@@ -581,6 +582,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1483925604}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &300336506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300336502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f241a009c23a2b4abaebfe09e7923fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInput: {fileID: 11400000, guid: a037e92d3a643744db25f306d518a164, type: 2}
 --- !u!1 &324251145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,7 +2043,7 @@ MonoBehaviour:
   hUDCanvas: {fileID: 346052051}
   menusCanvas: {fileID: 232952084}
   resumeButton: {fileID: 705589708}
-  optionButton: {fileID: 1226267371}
+  optionsButton: {fileID: 1226267371}
   mainMenuButton: {fileID: 1226616236}
 --- !u!1 &1503856059
 GameObject:

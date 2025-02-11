@@ -10,17 +10,18 @@ public class GameplayerUIController : MonoBehaviour
     [SerializeField] Canvas menusCanvas;
     [Header(" --- PLAYER INPUT ---")]
     [SerializeField] Button resumeButton;
-    [SerializeField] Button optionButton;
+    [SerializeField] Button optionsButton;
     [SerializeField] Button mainMenuButton;
     void OnEnable()
     {
         playerInput.onPause += Pause;
         playerInput.onUnpause += Unpause;
 
-        resumeButton.onClick.AddListener(OnResumeButtonClick);
-        optionButton.onClick.AddListener(OnOptionsButtonClick);
-        mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
-        
+
+        ButtonPressedBehavior.buttonFunctionTable.Add(resumeButton.gameObject.name, OnResumeButtonClick);
+        ButtonPressedBehavior.buttonFunctionTable.Add(optionsButton.gameObject.name, OnOptionsButtonClick);
+        ButtonPressedBehavior.buttonFunctionTable.Add(mainMenuButton.gameObject.name, OnMainMenuButtonClick);
+
     }
 
     void OnDisable()
@@ -28,10 +29,6 @@ public class GameplayerUIController : MonoBehaviour
         playerInput.onPause -= Pause;
         playerInput.onUnpause -= Unpause;
 
-        resumeButton.onClick.RemoveAllListeners();
-        optionButton.onClick.RemoveAllListeners();
-        mainMenuButton.onClick.RemoveAllListeners();
-        
     }
 
     void Pause()
@@ -41,11 +38,13 @@ public class GameplayerUIController : MonoBehaviour
         menusCanvas.enabled = true;
         playerInput.EnablePauseMenuInput();
         playerInput.SwitchToDynamicUpdateMode();
+        UIInput.Instance.SelectUI(resumeButton);
     }
 
     void Unpause()
     {
-        OnResumeButtonClick();
+        resumeButton.Select();
+        resumeButton.animator.SetTrigger("Pressed");
     }
 
     void OnResumeButtonClick()
@@ -59,7 +58,8 @@ public class GameplayerUIController : MonoBehaviour
 
     void OnOptionsButtonClick()
     {
-
+        UIInput.Instance.SelectUI(optionsButton);
+        playerInput.EnablePauseMenuInput();
     }
 
     void OnMainMenuButtonClick()
