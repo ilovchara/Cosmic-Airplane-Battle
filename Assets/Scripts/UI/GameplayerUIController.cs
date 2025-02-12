@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,14 @@ public class GameplayerUIController : MonoBehaviour
     [SerializeField] Button resumeButton;
     [SerializeField] Button optionsButton;
     [SerializeField] Button mainMenuButton;
+
+    [Header(" == AUDIO DATA == ")]
+    [SerializeField] AudioData pauseSFX;
+    [SerializeField] AudioData unpauseSFX;
+
+    int ButtonPressedBehaviorID = Animator.StringToHash("Pressed");
+
+
     void OnEnable()
     {
         playerInput.onPause += Pause;
@@ -29,32 +38,43 @@ public class GameplayerUIController : MonoBehaviour
         playerInput.onPause -= Pause;
         playerInput.onUnpause -= Unpause;
 
+        ButtonPressedBehavior.buttonFunctionTable.Clear();
+
     }
 
     void Pause()
     {
-        Time.timeScale = 0f;
+
         hUDCanvas.enabled = false;
         menusCanvas.enabled = true;
+        GameManager.GameState = GameState.Paused;
+        TimeController.Instance.Pause();
         playerInput.EnablePauseMenuInput();
         playerInput.SwitchToDynamicUpdateMode();
         UIInput.Instance.SelectUI(resumeButton);
+        AudioManager.Instance.PlaySFX(pauseSFX);
+    }
+
+    void OnResumeButtonClick()
+    {
+
+
+        hUDCanvas.enabled = true;
+        menusCanvas.enabled = false;
+        GameManager.GameState = GameState.Playing;
+        playerInput.EnableGameplayInput();
+        playerInput.SwitchToFixedUpdateMode();
+        TimeController.Instance.Unpause();
     }
 
     void Unpause()
     {
         resumeButton.Select();
-        resumeButton.animator.SetTrigger("Pressed");
+        resumeButton.animator.SetTrigger(ButtonPressedBehaviorID);
+        AudioManager.Instance.PlaySFX(unpauseSFX);
     }
 
-    void OnResumeButtonClick()
-    {
-        Time.timeScale = 1f;
-        hUDCanvas.enabled = true;
-        menusCanvas.enabled = false;
-        playerInput.EnableGameplayInput();
-        playerInput.SwitchToFixedUpdateMode();
-    }
+
 
     void OnOptionsButtonClick()
     {

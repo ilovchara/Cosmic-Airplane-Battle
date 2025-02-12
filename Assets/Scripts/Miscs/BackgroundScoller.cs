@@ -17,7 +17,7 @@ public class BackgroundScoller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     IEnumerator Start()
     {
-        while(true)
+        while(GameManager.GameState != GameState.GameOver)
         {
             material.mainTextureOffset += scroVelocity * Time.deltaTime;
             yield return null;

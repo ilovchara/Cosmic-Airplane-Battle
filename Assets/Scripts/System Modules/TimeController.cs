@@ -8,6 +8,7 @@ public class TimeController : Singleton<TimeController>
     [SerializeField, Range(0f, 1f)] float bulletTimeScale = 0.1f; // 子弹时间的时间缩放值
 
     float defaultFixedDeltaTime; // 记录默认的 FixedDeltaTime 值
+    float timeScaleBeforePause;
     float t; // 用于插值计算的时间变量
 
     protected override void Awake()
@@ -15,6 +16,20 @@ public class TimeController : Singleton<TimeController>
         base.Awake();
         defaultFixedDeltaTime = Time.fixedDeltaTime; // 记录初始的 FixedDeltaTime
     }
+
+    public void Pause()
+    {
+        timeScaleBeforePause = Time.timeScale;
+        Time.timeScale = 0f;
+
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = timeScaleBeforePause;
+    }
+
+
 
     // 触发子弹时间，包含缓慢进入、保持和缓慢退出的过程
     public void BulletTime(float inDuration, float keepingDuration, float outDuration)
@@ -68,10 +83,14 @@ public class TimeController : Singleton<TimeController>
         t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / duration; // 使用 unscaledDeltaTime 确保时间变化不受 Time.timeScale 影响
-            Time.timeScale = Mathf.Lerp(1f, bulletTimeScale, t); // 逐步降低 Time.timeScale
-            Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale; // 调整 FixedDeltaTime 以匹配新 TimeScale
-            
+            if (GameManager.GameState != GameState.Paused)
+            {
+                t += Time.unscaledDeltaTime / duration; // 使用 unscaledDeltaTime 确保时间变化不受 Time.timeScale 影响
+                Time.timeScale = Mathf.Lerp(1f, bulletTimeScale, t); // 逐步降低 Time.timeScale
+                Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale; // 调整 FixedDeltaTime 以匹配新 TimeScale
+
+
+            }
             yield return null;
         }
     }
@@ -82,11 +101,16 @@ public class TimeController : Singleton<TimeController>
         t = 0f;
         while (t < 1f)
         {
-            t += Time.unscaledDeltaTime / duration;
-            Time.timeScale = Mathf.Lerp(bulletTimeScale, 1f, t); // 逐步恢复 Time.timeScale
-            Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale; // 调整 FixedDeltaTime 以匹配新 TimeScale
-            
+            if (GameManager.GameState != GameState.Paused)
+            {
+                t += Time.unscaledDeltaTime / duration;
+                Time.timeScale = Mathf.Lerp(bulletTimeScale, 1f, t); // 逐步恢复 Time.timeScale
+                Time.fixedDeltaTime = defaultFixedDeltaTime * Time.timeScale; // 调整 FixedDeltaTime 以匹配新 TimeScale
+
+
+            }
             yield return null;
+
         }
     }
 }

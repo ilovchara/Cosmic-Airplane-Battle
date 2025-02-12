@@ -13,4 +13,15 @@ public class Enemy : Character
         EnemyManager.Instance.RemoveFromList(gameObject);
         base.Die();
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.TryGetComponent<Player>(out Player player))
+        {
+            player.Die();
+            Die();
+        }
+    }
+
+
 }
