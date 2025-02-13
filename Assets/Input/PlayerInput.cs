@@ -27,6 +27,8 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
 
     public event UnityAction onUnpause = delegate { };
 
+    public event UnityAction onLaunchMissile = delegate { };
+
     #region Unity Lifecycle Methods
 
     private void OnEnable()
@@ -145,6 +147,14 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
         if (context.performed)
         {
             onUnpause.Invoke();
+        }
+    }
+
+    public void OnLaunchMissile(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            onLaunchMissile.Invoke();
         }
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ProjectileGuidanceSystem : MonoBehaviour
 {
-    // 没搞懂
+    // 导弹制导系统
     [SerializeField] Projectile projectile;
     [SerializeField] float minBallisticAngle = 50f;
     [SerializeField] float maxBallisticAngle = 75f;

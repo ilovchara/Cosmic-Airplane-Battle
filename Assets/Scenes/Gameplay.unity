@@ -243,17 +243,19 @@ MonoBehaviour:
     size: 25
   - prefab: {fileID: 7254601473204453017, guid: 40a1f73850ab08941a10c7486c40073a, type: 3}
     size: 90
+  - prefab: {fileID: 2523096243714385163, guid: 1b2c3ab1e0e61914ba3e10d026ca3023, type: 3}
+    size: 3
   enemyProjectilePools:
   - prefab: {fileID: 9123035956433670535, guid: 35bc8c2ca4f454a4ea3299703703a422, type: 3}
-    size: 15
+    size: 50
   - prefab: {fileID: 9123035956433670535, guid: 443f3d6e63c859f4da90367a1ad58119, type: 3}
-    size: 15
+    size: 50
   - prefab: {fileID: 9123035956433670535, guid: a2b8433be7bfba049a4cea885727ba49, type: 3}
-    size: 15
+    size: 50
   - prefab: {fileID: 9123035956433670535, guid: 8d78d1d3ab02980449c6c248795a423e, type: 3}
-    size: 15
+    size: 50
   - prefab: {fileID: 9123035956433670535, guid: 606a87dabb36ce7468138bcf398434da, type: 3}
-    size: 15
+    size: 50
   vFXPools:
   - prefab: {fileID: 2342042931496088306, guid: 97b415311529fa145aacd3eedaac728e, type: 3}
     size: 27
@@ -264,7 +266,9 @@ MonoBehaviour:
   - prefab: {fileID: 5060298685065931927, guid: 6775c68a79b34db4fa2fd4db2a4cdf74, type: 3}
     size: 27
   - prefab: {fileID: 5060298685065931927, guid: e5ad727d78baa394ca4cda0a88e9a060, type: 3}
-    size: 80
+    size: 3
+  - prefab: {fileID: 7203458116342931450, guid: 975f9549f84dd594a84456abeb05e287, type: 3}
+    size: 3
   lootItemPools: []
 --- !u!4 &227110714
 Transform:
@@ -86526,6 +86530,7 @@ GameObject:
   - component: {fileID: 7345535917198882203}
   - component: {fileID: 356059244646396523}
   - component: {fileID: 2801332526200783513}
+  - component: {fileID: 8239838049968557651}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -101479,6 +101484,22 @@ MonoBehaviour:
   overdriveDodgeFactor: 2
   overdriveSpeedFactor: 1.2
   overdriveFireFactor: 1.2
+--- !u!114 &8239838049968557651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435389010157472765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab8c9436ffad334e8392a9966e59804, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 2523096243714385163, guid: 1b2c3ab1e0e61914ba3e10d026ca3023, type: 3}
+  launchSFX:
+    audioClip: {fileID: 8300000, guid: 99331d0df4c708149b69b11b5a64d2f4, type: 3}
+    volume: 0.5
 --- !u!114 &8240803589385592411
 MonoBehaviour:
   m_ObjectHideFlags: 0

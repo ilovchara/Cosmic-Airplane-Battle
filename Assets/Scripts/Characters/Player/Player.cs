@@ -52,6 +52,7 @@ public class Player : Character
     private float currentRoll;
     private float dodgeDuration;
 
+
     private WaitForSeconds waitForFireInterval;
     private WaitForSeconds waitForOverdriveFireInterval;
     private WaitForSeconds waitHealthRegenerateTime;
@@ -68,6 +69,8 @@ public class Player : Character
     private float paddingX;
     private float paddingY;
 
+    MissileSystem missile;
+
     void Start()
     {
         startsBar_HUD.Initialize(health, maxHealth);
@@ -79,8 +82,10 @@ public class Player : Character
     {
 
         collider = GetComponent<Collider2D>();
-
+        missile = GetComponent<MissileSystem>();
         rigidbody = GetComponent<Rigidbody2D>();
+
+
         rigidbody.gravityScale = 0f;  // Disable gravity
         dodgeDuration = maxRoll / rollSpeed;
 
@@ -103,6 +108,7 @@ public class Player : Character
         input.onStopFire += StopFire;
         input.onDodge += Dodge;
         input.onOverdrive += Overdrive;
+        input.onLaunchMissile += OnLauchMissile;
 
         PlayerOverdrive.on += OverdriveOn;
         PlayerOverdrive.off += OverdirveOff;
@@ -118,6 +124,7 @@ public class Player : Character
         input.onDodge -= Dodge;
 
         input.onOverdrive -= Overdrive;
+        input.onLaunchMissile -= OnLauchMissile;
 
         PlayerOverdrive.on -= OverdriveOn;
         PlayerOverdrive.off -= OverdirveOff;
@@ -335,6 +342,9 @@ public class Player : Character
     #endregion
 
 
-
+    void OnLauchMissile()
+    {
+        missile.Launch(muzzleMiddle);
+    }
 
 }

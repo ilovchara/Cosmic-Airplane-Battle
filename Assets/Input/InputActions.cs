@@ -71,6 +71,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Launch Missile"",
+                    ""type"": ""Button"",
+                    ""id"": ""5aa7c630-a8aa-4a4d-9f9e-fafe35ead67f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -227,6 +236,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d3316ca-5037-4fad-b575-b9e23fe020c2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Launch Missile"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -285,6 +305,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_Overdrive = m_Gameplay.FindAction("Overdrive", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        m_Gameplay_LaunchMissile = m_Gameplay.FindAction("Launch Missile", throwIfNotFound: true);
         // PauseMenu
         m_PauseMenu = asset.FindActionMap("PauseMenu", throwIfNotFound: true);
         m_PauseMenu_Unpause = m_PauseMenu.FindAction("Unpause", throwIfNotFound: true);
@@ -360,6 +381,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_Overdrive;
     private readonly InputAction m_Gameplay_Pause;
+    private readonly InputAction m_Gameplay_LaunchMissile;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -369,6 +391,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @Overdrive => m_Wrapper.m_Gameplay_Overdrive;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
+        public InputAction @LaunchMissile => m_Wrapper.m_Gameplay_LaunchMissile;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -393,6 +416,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @LaunchMissile.started += instance.OnLaunchMissile;
+            @LaunchMissile.performed += instance.OnLaunchMissile;
+            @LaunchMissile.canceled += instance.OnLaunchMissile;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -412,6 +438,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @LaunchMissile.started -= instance.OnLaunchMissile;
+            @LaunchMissile.performed -= instance.OnLaunchMissile;
+            @LaunchMissile.canceled -= instance.OnLaunchMissile;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -491,6 +520,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnOverdrive(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnLaunchMissile(InputAction.CallbackContext context);
     }
     public interface IPauseMenuActions
     {
