@@ -33,13 +33,6 @@ public class PlayerMissile : PlayerProjectileOverdrive
         StartCoroutine(nameof(VariableSpeedCoroutine));
     }
 
-    // 可视化爆炸范围
-    // void OnDrawGizmosSelected()
-    // {
-    //     Gizmos.color = Color.yellow;
-    //     Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    // }
-
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
         base.OnCollisionEnter2D(collision);
