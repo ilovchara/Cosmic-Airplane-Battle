@@ -39,9 +39,9 @@ public class MissileSystem : MonoBehaviour
         {
             MissileDisplay.UpdateCooldownImage(1f);
         }
-        else{
+        else
+        {
             StartCoroutine(CooldownCoroutine());
-
         }
     }
     // 冷却一秒
@@ -49,7 +49,7 @@ public class MissileSystem : MonoBehaviour
     {
         var cooldownValue = cooldownTime;
 
-        while(cooldownValue > 0f)
+        while (cooldownValue > 0f)
         {
             MissileDisplay.UpdateCooldownImage(cooldownValue / cooldownTime);
             cooldownValue = Mathf.Max(cooldownValue - Time.deltaTime, 0f);

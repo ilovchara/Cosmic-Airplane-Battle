@@ -7,7 +7,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 // 这个类是输入效果，供别的类继承使用这些方法 - 使用的方式是订阅委托
 [CreateAssetMenu(menuName = "Player Input")]
-public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, InputActions.IPauseMenuActions
+public class PlayerInput :
+ScriptableObject,
+InputActions.IGameplayActions,
+InputActions.IPauseMenuActions,
+InputActions.IGameOverScreenActions
 {
     InputActions inputActions;
     // 点击后触发的事件
@@ -29,6 +33,8 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
 
     public event UnityAction onLaunchMissile = delegate { };
 
+    public event UnityAction onConfirmGameOver = delegate { };
+
     #region Unity Lifecycle Methods
 
     private void OnEnable()
@@ -37,6 +43,7 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
         // 将回调事件绑定到当前类的实现方法上。
         inputActions.Gameplay.SetCallbacks(this);
         inputActions.PauseMenu.SetCallbacks(this);
+        inputActions.GameOverScreen.SetCallbacks(this);
     }
 
     private void OnDisable()
@@ -75,6 +82,8 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
     public void EnableGameplayInput() => SwitchActionMap(inputActions.Gameplay, false);
 
     public void EnablePauseMenuInput() => SwitchActionMap(inputActions.PauseMenu, true);
+
+    public void EnableGameOverScreenInput() => SwitchActionMap(inputActions.GameOverScreen, false);
 
     #endregion
 
@@ -152,9 +161,17 @@ public class PlayerInput : ScriptableObject, InputActions.IGameplayActions, Inpu
 
     public void OnLaunchMissile(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
         {
             onLaunchMissile.Invoke();
+        }
+    }
+
+    public void OnConfirmGameOver(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            onConfirmGameOver.Invoke();
         }
     }
 
