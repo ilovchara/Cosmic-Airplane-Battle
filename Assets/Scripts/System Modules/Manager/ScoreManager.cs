@@ -4,6 +4,8 @@ using UnityEngine.TextCore.Text;
 
 public class ScoreManager : PersistentSingleton<ScoreManager>
 {
+    // 属性
+    public int Score => score;
     int score;
     int currentScore;
 
