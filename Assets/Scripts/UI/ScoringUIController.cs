@@ -15,14 +15,41 @@ public class ScoringUIController : MonoBehaviour
     [SerializeField] Button buttonMainMenu;
     [SerializeField] Transform highScoreLeaderboardContainer;
 
+    [Header(" == HIGH SCORE SCREEN")]
+    [SerializeField] Canvas newHightScoreScreenCanvas;
+    [SerializeField] Button buttonCancel;
+    [SerializeField] Button buttonSubmit;
+    [SerializeField] InputField playerNameInputField;
+
+
+
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         ShowRandomBackground();
-        ShowScoringScreen();
+
+        if (ScoreManager.Instance.HasNewHighScore)
+        {
+            ShowNewHighScoreScreen();
+        }
+        else
+        {
+            ShowScoringScreen();
+        }
 
         ButtonPressedBehavior.buttonFunctionTable.Add(buttonMainMenu.gameObject.name, OnButtonMainMenuClicked);
+        ButtonPressedBehavior.buttonFunctionTable.Add(buttonSubmit.gameObject.name, OnButtonMainMenuClicked);
+        ButtonPressedBehavior.buttonFunctionTable.Add(buttonCancel.gameObject.name, HideNewHightScoreScreen);
         GameManager.GameState = GameState.Scoring;
     }
+
+    void ShowNewHighScoreScreen()
+    {
+        newHightScoreScreenCanvas.enabled = true;
+        UIInput.Instance.SelectUI(buttonCancel);
+    }
+
 
     void OnDisable()
     {
@@ -34,7 +61,7 @@ public class ScoringUIController : MonoBehaviour
     {
         background.sprite = backgroundImages[Random.Range(0, backgroundImages.Length)];
     }
-    
+
     // 显示得分界面，更新分数，并调整鼠标状态
     void ShowScoringScreen()
     {
@@ -42,9 +69,6 @@ public class ScoringUIController : MonoBehaviour
         playerScoreText.text = ScoreManager.Instance.Score.ToString();
 
         UIInput.Instance.SelectUI(buttonMainMenu);
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         UpdateHighScoreLeaderboard();
     }
 
@@ -71,9 +95,24 @@ public class ScoringUIController : MonoBehaviour
         SceneLoader.Instance.LoadMainMenuScene();
     }
 
+    void OnButtonSUbmitClicked()
+    {
+        if(!string.IsNullOrEmpty(playerNameInputField.text))
+        {
+            ScoreManager.Instance.SetPlayerName(playerNameInputField.name);
 
+        }
+        HideNewHightScoreScreen();
+    }
 
+    private void HideNewHightScoreScreen()
+    {
+        newHightScoreScreenCanvas.enabled = false;
+        ScoreManager.Instance.SavePlayerScoreData();
+        ShowRandomBackground();
+        ShowScoringScreen();
 
+    }
 
 
 

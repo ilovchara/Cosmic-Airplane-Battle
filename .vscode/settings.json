@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Cosmic Airplane Battle.sln"
+    "dotnet.defaultSolution": "Cosmic-Airplane-Battle.sln"
 }
