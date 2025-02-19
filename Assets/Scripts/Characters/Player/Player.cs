@@ -53,6 +53,7 @@ public class Player : Character
     private float dodgeDuration;
 
 
+
     private WaitForSeconds waitForFireInterval;
     private WaitForSeconds waitForOverdriveFireInterval;
     private WaitForSeconds waitHealthRegenerateTime;

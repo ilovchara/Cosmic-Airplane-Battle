@@ -39,7 +39,7 @@ public class ScoringUIController : MonoBehaviour
         }
 
         ButtonPressedBehavior.buttonFunctionTable.Add(buttonMainMenu.gameObject.name, OnButtonMainMenuClicked);
-        ButtonPressedBehavior.buttonFunctionTable.Add(buttonSubmit.gameObject.name, OnButtonMainMenuClicked);
+        ButtonPressedBehavior.buttonFunctionTable.Add(buttonSubmit.gameObject.name, OnButtonSUbmitClicked);
         ButtonPressedBehavior.buttonFunctionTable.Add(buttonCancel.gameObject.name, HideNewHightScoreScreen);
         GameManager.GameState = GameState.Scoring;
     }
@@ -99,7 +99,7 @@ public class ScoringUIController : MonoBehaviour
     {
         if(!string.IsNullOrEmpty(playerNameInputField.text))
         {
-            ScoreManager.Instance.SetPlayerName(playerNameInputField.name);
+            ScoreManager.Instance.SetPlayerName(playerNameInputField.text);
 
         }
         HideNewHightScoreScreen();
