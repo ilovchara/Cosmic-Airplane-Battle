@@ -32,8 +32,6 @@ public class Player : Character
     [SerializeField, Range(0, 2)] private int weaponPower = 0;
     [SerializeField] private AudioData projectileLaunchSFX;
 
-    [SerializeField] private GameObject projectileOverdrive;
-
     [Header("--- Dodge Settings ---")]
     [SerializeField] private AudioData dodgeSFX;
     [SerializeField] private int dodgeEnergyCost = 25;
@@ -42,18 +40,18 @@ public class Player : Character
     [SerializeField] private Vector3 dodgeScale = new Vector3(0.5f, 0.5f, 0.5f);
 
     [Header("--- OVERDRIVE ---")]
+    [SerializeField] private GameObject projectileOverdrive;
     [SerializeField] int overdriveDodgeFactor = 2;
     [SerializeField] float overdriveSpeedFactor = 1.2f;
     [SerializeField] float overdriveFireFactor = 1.2f;
 
-
+    // 判断技能状态变量
     private bool isDodging = false;
     private bool isOverdriving = false;
     private float currentRoll;
     private float dodgeDuration;
 
-
-
+    // 控制协程等待时间
     private WaitForSeconds waitForFireInterval;
     private WaitForSeconds waitForOverdriveFireInterval;
     private WaitForSeconds waitHealthRegenerateTime;
@@ -61,12 +59,14 @@ public class Player : Character
     private new Rigidbody2D rigidbody;
     private new Collider2D collider;
 
+    // 存储 Move 和 healthRegenerate 的协程变量
     private Coroutine moveCoroutine;
     private Coroutine healthRegenerateCoroutine;
 
+    // 子弹时间 
     readonly float slowMotionDuration = 0.5f;
     readonly float slowMotionDurationDoDge = 0.25f;
-
+    // 设置限制区域
     private float paddingX;
     private float paddingY;
 
@@ -85,15 +85,15 @@ public class Player : Character
         collider = GetComponent<Collider2D>();
         missile = GetComponent<MissileSystem>();
         rigidbody = GetComponent<Rigidbody2D>();
-
-
-        rigidbody.gravityScale = 0f;  // Disable gravity
+        // 子弹时间 持续时间
         dodgeDuration = maxRoll / rollSpeed;
 
-        waitForFireInterval = new WaitForSeconds(fireInterval);  // Set fire interval
+        // 射击间隔 - 过载时间射击间隔 - 玩家恢复生命时间间隔
+        waitForFireInterval = new WaitForSeconds(fireInterval);
         waitForOverdriveFireInterval = new WaitForSeconds(fireInterval / overdriveFireFactor);
-        waitHealthRegenerateTime = new WaitForSeconds(healthRegenerateTime);  // Set health regeneration time
+        waitHealthRegenerateTime = new WaitForSeconds(healthRegenerateTime); 
 
+        // 根据玩家对象的priot来限制边界的移动
         var size = transform.GetChild(0).GetComponent<Renderer>().bounds.size;
         paddingX = size.x/2f;
         paddingY = size.y/2f;
@@ -102,6 +102,7 @@ public class Player : Character
     [System.Obsolete]
     protected override void OnEnable()
     {
+        // 在输入系统中 订阅当前类实现的所有行为函数
         base.OnEnable();
         input.onMove += Move;
         input.onStopMove += StopMove;
@@ -118,12 +119,12 @@ public class Player : Character
     [System.Obsolete]
     private void OnDisable()
     {
+        // 在输入系统中 订阅当前类实现的所有行为函数
         input.onMove -= Move;
         input.onStopMove -= StopMove;
         input.onFire -= Fire;
         input.onStopFire -= StopFire;
         input.onDodge -= Dodge;
-
         input.onOverdrive -= Overdrive;
         input.onLaunchMissile -= OnLauchMissile;
 

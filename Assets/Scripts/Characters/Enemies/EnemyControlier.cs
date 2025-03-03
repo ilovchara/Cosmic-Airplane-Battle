@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Security;
 using UnityEngine;
 
 /// 敌人控制脚本，控制敌人的随机移动和随机射击
@@ -11,18 +12,18 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float moveRotationAngle = 25f; // 移动时的旋转角度
 
     [Header("---- Fire Settings ----")]
-    [SerializeField] private GameObject[] projectiles; // 子弹的预制体数组
-    [SerializeField] private Transform muzzle; // 子弹发射的起始位置（枪口）
-    [SerializeField] private float minFireInterval; // 最小射击间隔时间
-    [SerializeField] private float maxFireInterval; // 最大射击间隔时间
-    [SerializeField] private AudioData[] projectileLaunchSFX; // 子弹发射音效
+    [SerializeField] protected GameObject[] projectiles; // 子弹的预制体数组
+    [SerializeField] protected Transform muzzle; // 子弹发射的起始位置（枪口）
+    [SerializeField] protected float minFireInterval; // 最小射击间隔时间
+    [SerializeField] protected float maxFireInterval; // 最大射击间隔时间
+    [SerializeField] protected AudioData[] projectileLaunchSFX; // 子弹发射音效
 
     private float paddingX; // X 轴的边距
     private float paddingY; // Y 轴的边距
 
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
-    void Awake()
+    protected virtual void Awake()
     {
         var size = transform.GetChild(0).GetComponent<Renderer>().bounds.size;
         paddingX = size.x / 2f;
@@ -66,7 +67,7 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// 协程：随机射击逻辑
     /// </summary>
-    IEnumerator RandomlyFireCoroutine()
+    protected virtual IEnumerator RandomlyFireCoroutine()
     {
         while (gameObject.activeSelf)
         {

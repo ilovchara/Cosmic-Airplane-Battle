@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class StartsBar_HUD : StatsBar
 {
     [Header(" --- UI Elements ---")]
-    [SerializeField] Text percentText;
+    [SerializeField] protected Text percentText;
 
     /// <summary>
     /// 设置百分比文本
     /// </summary>
-    void SetPercentText()
+    protected virtual void SetPercentText()
     {
         percentText.text = Mathf.RoundToInt(targetFillAmount * 100f) + "%";
     }

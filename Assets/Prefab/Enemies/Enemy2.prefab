@@ -14709,8 +14709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc9355d84a4a71489ac53886d43ab82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paddingX: 0.8
-  paddingY: 0.4
   moveSpeed: 2
   moveRotationAngle: 35
   projectiles:
@@ -14747,6 +14745,7 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: 0f2184b0c1d094741b11e8f4077c52e9, type: 3}
     volume: 1
   deathEnergyBonus: 6
+  scorePoint: 100
 --- !u!50 &1790163435441210801
 Rigidbody2D:
   serializedVersion: 5
@@ -14899,6 +14898,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4541066710869070813, guid: e3dff92dab30be549afcea865e12b569, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: e90d0cabddd6a5a4ca6f33e0140cac57, type: 2}
+    - target: {fileID: 4544762749369767347, guid: e3dff92dab30be549afcea865e12b569, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: e90d0cabddd6a5a4ca6f33e0140cac57, type: 2}
     - target: {fileID: 5967470652812924150, guid: e3dff92dab30be549afcea865e12b569, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1

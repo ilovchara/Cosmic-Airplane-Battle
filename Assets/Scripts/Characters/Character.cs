@@ -70,6 +70,8 @@ public class Character : MonoBehaviour
     /// <param name="damage">伤害值。</param>
     public virtual void TakeDamage(float damage)
     {
+        // 血条归零时取消显示大血条
+        if(health == 0f) return;
         health -= damage;
 
         if (showOnHeadHealthBar && gameObject.activeSelf)

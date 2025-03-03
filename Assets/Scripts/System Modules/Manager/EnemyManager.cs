@@ -46,7 +46,7 @@ public class EnemyManager : Singleton<EnemyManager>
     /// <returns>协程的IEnumerator</returns>
     IEnumerator Start()
     {
-        while (spawnEnemy)
+        while (spawnEnemy && GameManager.GameState != GameState.GameOver)
         {
             waveUI.SetActive(true);
             yield return waitTImeBetweenWaves;

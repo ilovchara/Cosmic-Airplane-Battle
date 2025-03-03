@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-// 简单滚动
+// One 实现背景的滚动
 public class BackgroundScoller : MonoBehaviour
 {
     // 速度变量 控制
@@ -13,8 +13,7 @@ public class BackgroundScoller : MonoBehaviour
         material = GetComponent<Renderer>().material;
     }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // 通过协程模仿Update 实现卷轴无限运动的效果
     IEnumerator Start()
     {
         while(GameManager.GameState != GameState.GameOver)
