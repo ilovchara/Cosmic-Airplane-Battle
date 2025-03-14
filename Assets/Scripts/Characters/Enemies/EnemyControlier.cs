@@ -17,9 +17,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected float minFireInterval; // 最小射击间隔时间
     [SerializeField] protected float maxFireInterval; // 最大射击间隔时间
     [SerializeField] protected AudioData[] projectileLaunchSFX; // 子弹发射音效
+    [SerializeField] protected ParticleSystem muzzleVFX;
 
-    private float paddingX; // X 轴的边距
-    private float paddingY; // Y 轴的边距
+    protected float paddingX; // X 轴的边距
+    float paddingY; // Y 轴的边距
+
+    protected Vector3 targetPosition; // 追踪目标
 
     WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
@@ -29,8 +32,8 @@ public class EnemyController : MonoBehaviour
         paddingX = size.x / 2f;
         paddingY = size.y / 2f;
     }
-
-    void OnEnable()
+    // 调用两个方法 - 随机移动和随机开火
+    protected virtual void OnEnable()
     {
         StartCoroutine(nameof(RandomlyMovingCoroutine));
         StartCoroutine(nameof(RandomlyFireCoroutine));
@@ -47,7 +50,7 @@ public class EnemyController : MonoBehaviour
     IEnumerator RandomlyMovingCoroutine()
     {
         transform.position = Viewport.Instance.RandomEnemySpawnPosition(paddingX, paddingY);
-        Vector3 targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
+        targetPosition = Viewport.Instance.RandomRightHalfPosition(paddingX, paddingY);
 
         while (gameObject.activeSelf)
         {
@@ -80,6 +83,7 @@ public class EnemyController : MonoBehaviour
                 PoolManager.Release(projectile, muzzle.position);
             }
             AudioManager.Instance.PlayRandomSFX(projectileLaunchSFX);
+            muzzleVFX.Play();
         }
     }
 }

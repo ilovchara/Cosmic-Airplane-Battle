@@ -19,6 +19,11 @@ public class EnemyManager : Singleton<EnemyManager>
     [SerializeField] int minEnemyAmount = 4; // 最少敌人数量
     [SerializeField] int maxEnemyAmount = 10; // 最多敌人数量
 
+
+    [Header("--- BOSS Settings ---")]
+    [SerializeField] GameObject bossPrefab;
+    [SerializeField] int bossWaveNumber;
+
     [Header(" --- Internal State ---")]
     List<GameObject> enemyList;
     int waveNumber = 1;
@@ -26,7 +31,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
     WaitForSeconds waitTimeBetweenSpawns;
     WaitForSeconds waitTImeBetweenWaves;
-    WaitUntil waitUnitlNoEnemy; // 等待直到没有敌人
+    WaitUntil waitUntilNoEnemy; // 等待直到没有敌人
 
     /// <summary>
     /// 初始化方法，确保在游戏开始时准备好敌人生成相关数据
@@ -37,7 +42,7 @@ public class EnemyManager : Singleton<EnemyManager>
         enemyList = new List<GameObject>();
         waitTimeBetweenSpawns = new WaitForSeconds(timeBetweenSpawns);
         waitTImeBetweenWaves = new WaitForSeconds(timeBetweenWaves);
-        waitUnitlNoEnemy = new WaitUntil(() => enemyList.Count == 0);
+        waitUntilNoEnemy = new WaitUntil(() => enemyList.Count == 0);
     }
 
     /// <summary>
@@ -62,17 +67,27 @@ public class EnemyManager : Singleton<EnemyManager>
     /// <returns>协程的IEnumerator</returns>
     IEnumerator RandomlySpawnCoroutine()
     {
-        enemyAmount = Mathf.Clamp(enemyAmount, minEnemyAmount + waveNumber / 3, maxEnemyAmount);
-
-        for (int i = 0; i < enemyAmount; i++)
+        if (waveNumber % bossWaveNumber == 0)
         {
-            enemyList.Add(PoolManager.Release(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]));
-            yield return waitTimeBetweenSpawns;
+            var boss = PoolManager.Release(bossPrefab);
+            enemyList.Add(boss);
+        }
+        else
+        {
+            enemyAmount = Mathf.Clamp(enemyAmount, minEnemyAmount + waveNumber / bossWaveNumber, maxEnemyAmount);
+
+            for (int i = 0; i < enemyAmount; i++)
+            {
+                enemyList.Add(PoolManager.Release(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]));
+                yield return waitTimeBetweenSpawns;
+            }
         }
 
-        yield return waitUnitlNoEnemy;
+        yield return waitUntilNoEnemy;
+
         waveNumber++;
     }
+
 
     /// <summary>
     /// 从敌人列表中移除指定的敌人

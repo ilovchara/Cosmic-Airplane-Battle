@@ -1,4 +1,4 @@
-using UnityEngine;
+        using UnityEngine;
 
 public class Boss : Enemy
 {
@@ -14,7 +14,7 @@ public class Boss : Enemy
         healthBarCanvas = healthBar.GetComponentInChildren<Canvas>();
     }
 
-    [System.Obsolete]
+
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -41,5 +41,10 @@ public class Boss : Enemy
     {
         base.TakeDamage(damage);
         healthBar.UpdateStats(health, maxHealth);
+    }
+
+    protected override void SetHealth()
+    {
+        maxHealth += EnemyManager.Instance.WaveNumber * healthFactor;
     }
 }

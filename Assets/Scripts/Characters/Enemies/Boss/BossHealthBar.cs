@@ -10,7 +10,4 @@ public class BossHealthBar : StartsBar_HUD
 
     }
 
-
-
-
 }

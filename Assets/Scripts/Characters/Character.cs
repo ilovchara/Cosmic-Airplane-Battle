@@ -28,7 +28,6 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 初始化角色状态。
     /// </summary>
-    [System.Obsolete("Use a more specific initialization method if needed.")]
     protected virtual void OnEnable()
     {
         health = maxHealth;

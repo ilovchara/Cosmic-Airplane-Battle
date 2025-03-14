@@ -11,6 +11,8 @@ public class Viewport : Singleton<Viewport>
     float minY;
     float maxY;
     float middleX;
+    
+    public float MaxX => maxX; // 声明只读属性，访问私有变量
 
     // 初始化限定世界位置
     void Start()

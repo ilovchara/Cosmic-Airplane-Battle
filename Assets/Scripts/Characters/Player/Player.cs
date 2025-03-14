@@ -1,6 +1,7 @@
 using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using RangeAttribute = UnityEngine.RangeAttribute;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -25,6 +26,7 @@ public class Player : Character
     [SerializeField] private GameObject projectile1;
     [SerializeField] private GameObject projectile2;
     [SerializeField] private GameObject projectile3;
+    [SerializeField] ParticleSystem muzzleVFX;
     [SerializeField] private Transform muzzleTop;
     [SerializeField] private Transform muzzleMiddle;
     [SerializeField] private Transform muzzleBottom;
@@ -55,6 +57,7 @@ public class Player : Character
     private WaitForSeconds waitForFireInterval;
     private WaitForSeconds waitForOverdriveFireInterval;
     private WaitForSeconds waitHealthRegenerateTime;
+    private WaitForSeconds waitInvincibleTime;
 
     private new Rigidbody2D rigidbody;
     private new Collider2D collider;
@@ -66,9 +69,14 @@ public class Player : Character
     // 子弹时间 
     readonly float slowMotionDuration = 0.5f;
     readonly float slowMotionDurationDoDge = 0.25f;
+    // 无敌时间
+    readonly float InvincibleTime = 1f;
+
     // 设置限制区域
     private float paddingX;
     private float paddingY;
+
+
 
     MissileSystem missile;
 
@@ -91,15 +99,15 @@ public class Player : Character
         // 射击间隔 - 过载时间射击间隔 - 玩家恢复生命时间间隔
         waitForFireInterval = new WaitForSeconds(fireInterval);
         waitForOverdriveFireInterval = new WaitForSeconds(fireInterval / overdriveFireFactor);
-        waitHealthRegenerateTime = new WaitForSeconds(healthRegenerateTime); 
+        waitHealthRegenerateTime = new WaitForSeconds(healthRegenerateTime);
+        waitInvincibleTime = new WaitForSeconds(InvincibleTime);
 
         // 根据玩家对象的priot来限制边界的移动
         var size = transform.GetChild(0).GetComponent<Renderer>().bounds.size;
-        paddingX = size.x/2f;
-        paddingY = size.y/2f;
+        paddingX = size.x / 2f;
+        paddingY = size.y / 2f;
     }
 
-    [System.Obsolete]
     protected override void OnEnable()
     {
         // 在输入系统中 订阅当前类实现的所有行为函数
@@ -136,15 +144,21 @@ public class Player : Character
     {
         base.TakeDamage(damage);
         startsBar_HUD.UpdateStats(health, maxHealth);
-
-        if (gameObject.activeSelf && regenrateHealth)
+        if (gameObject.activeSelf)
         {
-            if (healthRegenerateCoroutine != null)
+            // 无敌伤害
+            StartCoroutine(InvincibleCoroutine());
+            if (regenrateHealth)
             {
-                StopCoroutine(healthRegenerateCoroutine);
+
+                if (healthRegenerateCoroutine != null)
+                {
+                    StopCoroutine(healthRegenerateCoroutine);
+                }
+                healthRegenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitHealthRegenerateTime, healthRegeneratePercent));
             }
-            healthRegenerateCoroutine = StartCoroutine(HealthRegenerateCoroutine(waitHealthRegenerateTime, healthRegeneratePercent));
         }
+
     }
 
     public override void RestoreHealth(float value)
@@ -161,9 +175,19 @@ public class Player : Character
         base.Die();
     }
 
+    IEnumerator InvincibleCoroutine()
+    {
+        collider.isTrigger = true;
+
+        yield return waitInvincibleTime;
+
+        collider.isTrigger = false;
+    }
+
+
     #region Movement
 
-    [System.Obsolete]
+
     private void Move(Vector2 moveInput)
     {
         if (moveCoroutine != null)
@@ -187,7 +211,6 @@ public class Player : Character
         }
     }
 
-    [System.Obsolete]
     private void StopMove()
     {
         if (moveCoroutine != null)
@@ -199,20 +222,19 @@ public class Player : Character
         StartCoroutine(SmoothTiltCoroutine(0));
     }
 
-    [System.Obsolete]
     private IEnumerator MoveCoroutine(float time, Vector2 moveVelocity)
     {
         float t = 0f;
-        Vector2 initialVelocity = rigidbody.velocity;
+        Vector2 initialVelocity = rigidbody.linearVelocity;
 
         while (t < time)
         {
             t += Time.fixedDeltaTime;
-            rigidbody.velocity = Vector2.Lerp(initialVelocity, moveVelocity, t / time);
+            rigidbody.linearVelocity = Vector2.Lerp(initialVelocity, moveVelocity, t / time);
             yield return null;
         }
 
-        rigidbody.velocity = moveVelocity;
+        rigidbody.linearVelocity = moveVelocity;
     }
 
     private IEnumerator SmoothTiltCoroutine(float targetTilt)
@@ -250,12 +272,13 @@ public class Player : Character
 
     private void Fire()
     {
-
+        muzzleVFX.Play();
         StartCoroutine(nameof(FireCoroutine));
     }
 
     private void StopFire()
     {
+        muzzleVFX.Stop();
         StopCoroutine(nameof(FireCoroutine));
     }
 

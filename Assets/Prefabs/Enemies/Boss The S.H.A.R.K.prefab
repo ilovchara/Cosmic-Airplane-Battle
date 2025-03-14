@@ -19600,6 +19600,13 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  beamCooldownTime: 5
+  beamChargingSFX:
+    audioClip: {fileID: 8300000, guid: 3ca00b83f814c7e4d96b72a5b73a229c, type: 3}
+    volume: 1
+  beamLaunchSFX:
+    audioClip: {fileID: 8300000, guid: e8005851546ef034aa6688f76d1daa52, type: 3}
+    volume: 1
 --- !u!1 &6777184692101022918
 GameObject:
   m_ObjectHideFlags: 0
