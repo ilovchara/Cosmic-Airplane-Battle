@@ -69,4 +69,18 @@ public class MissileSystem : MonoBehaviour
         }
         isReady = true;
     }
+    // 拾取获取导弹
+    public void PickUp()
+    {
+        amount++;
+        MissileDisplay.UpdateAmountText(amount);
+        // 剩下一个就
+        if(amount == 1)
+        {
+            MissileDisplay.UpdateCooldownImage(0f);
+            isReady = true;
+        }
+
+    }
+
 }

@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class LootItem : MonoBehaviour
 {
+
     [SerializeField] float minSpeed = 5f;
     [SerializeField] float maxSpeed = 15f;
     [SerializeField] protected AudioData defaultPickUpSFX;
+    [SerializeField] protected AudioData fullHealthPickupSFX;
 
     int pickUpStateID = Animator.StringToHash("PickUp");
 
@@ -23,7 +25,7 @@ public class LootItem : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        player = FindObjectOfType<Player>();
+        player = FindFirstObjectByType<Player>();
 
         lootMessage = GetComponentInChildren<Text>(true);
 

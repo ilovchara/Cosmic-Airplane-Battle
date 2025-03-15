@@ -7,6 +7,7 @@ using RangeAttribute = UnityEngine.RangeAttribute;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : Character
 {
+    #region FIELDS
     [Header("--- Health Settings ---")]
     [SerializeField] private bool regenrateHealth = true;
     [SerializeField] private float healthRegenerateTime;
@@ -75,11 +76,10 @@ public class Player : Character
     // 设置限制区域
     private float paddingX;
     private float paddingY;
-
-
-
     MissileSystem missile;
+    #endregion
 
+    #region UNITY EVENT FUNCTIONS
     void Start()
     {
         startsBar_HUD.Initialize(health, maxHealth);
@@ -140,9 +140,20 @@ public class Player : Character
         PlayerOverdrive.off -= OverdirveOff;
     }
 
+    #endregion
+
+    #region PROERTIES 凋落物
+    public bool IsFullHealth => health == maxHealth;
+    public bool IsFullPower => weaponPower == 2;
+
+    #endregion
+
+    #region HEALTH
+
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+        PowerDown();
         startsBar_HUD.UpdateStats(health, maxHealth);
         if (gameObject.activeSelf)
         {
@@ -183,7 +194,7 @@ public class Player : Character
 
         collider.isTrigger = false;
     }
-
+    #endregion
 
     #region Movement
 
@@ -289,11 +300,11 @@ public class Player : Character
             switch (weaponPower)
             {
                 case 0:
-                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleMiddle.position);
                     break;
                 case 1:
-                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleTop.position);
-                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleBottom.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleTop.position);
+                    PoolManager.Release(isOverdriving ? projectileOverdrive : projectile2, muzzleBottom.position);
                     break;
                 case 2:
                     PoolManager.Release(isOverdriving ? projectileOverdrive : projectile1, muzzleMiddle.position);
@@ -309,6 +320,9 @@ public class Player : Character
             yield return isOverdriving ? waitForOverdriveFireInterval : waitForFireInterval;
         }
     }
+
+
+
 
     #endregion
 
@@ -367,10 +381,38 @@ public class Player : Character
 
     #endregion
 
-
+    # region MISSILE
     void OnLauchMissile()
     {
         missile.Launch(muzzleMiddle);
     }
 
+    public void PickUpMissile()
+    {
+        missile.PickUp();
+    }
+
+    #endregion
+
+    #region WEAPON POWER
+
+    public void PowerUp()
+    {
+        weaponPower = Mathf.Min(++weaponPower, 2);
+    }
+
+    void PowerDown()
+    {
+        //* 写法1
+        // weaponPower--;
+        // weaponPower = Mathf.Clamp(weaponPower, 0, 2);
+        //* 写法2
+        // weaponPower = Mathf.Max(weaponPower - 1, 0);
+        //* 写法3
+        // weaponPower = Mathf.Clamp(weaponPower, --weaponPower, 0);
+        //* 写法4
+        weaponPower = Mathf.Max(--weaponPower, 0);
+    }
+
+    #endregion
 }

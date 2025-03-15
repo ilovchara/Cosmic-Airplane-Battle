@@ -1,4 +1,4 @@
-        using UnityEngine;
+using UnityEngine;
 
 public class Boss : Enemy
 {
@@ -7,8 +7,9 @@ public class Boss : Enemy
     Canvas healthBarCanvas;
 
     [System.Obsolete]
-    void Awake()
+    protected virtual void Awake()
     {
+        base.Awake();
         healthBar = FindObjectOfType<BossHealthBar>();
         // 获取子对象canvas组件
         healthBarCanvas = healthBar.GetComponentInChildren<Canvas>();

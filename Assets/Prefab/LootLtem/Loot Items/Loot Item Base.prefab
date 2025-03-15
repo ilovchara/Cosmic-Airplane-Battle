@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 3557428357913326418}
   - component: {fileID: 3557428357913326416}
   - component: {fileID: 3207027584852431511}
-  - component: {fileID: 8953985389778945299}
   m_Layer: 10
   m_Name: Loot Item Base
   m_TagString: Untagged
@@ -300,23 +299,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8953985389778945299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3557428357913326413}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1a1fdb1a7360c8468a7adfe7057366a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 5
-  maxSpeed: 15
-  defaultPickUpSFX:
-    audioClip: {fileID: 0}
-    volume: 0
 --- !u!1 &5691329383125972806
 GameObject:
   m_ObjectHideFlags: 0

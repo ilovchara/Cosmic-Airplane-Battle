@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7138950413338228418}
   - component: {fileID: 3220196513087564141}
   - component: {fileID: 4752478400455595602}
+  - component: {fileID: 8423650796889398521}
   m_Layer: 7
   m_Name: Enemy1
   m_TagString: Enemy
@@ -154,6 +155,31 @@ CapsuleCollider2D:
   m_Offset: {x: 0.09847003, y: -0.0950494}
   m_Size: {x: 1.277274, y: 0.1391529}
   m_Direction: 1
+--- !u!114 &8423650796889398521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 214778051926960383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52c5454a69afcc54fa225f1f44901687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootSettings:
+  - prefab: {fileID: 2019851316260838503, guid: 3281a09cc02e0e3478edeb13d697cd38, type: 3}
+    dropPercentage: 50
+  - prefab: {fileID: 5921898909932458412, guid: 853e9cf2d19d10a44947898a95b33246, type: 3}
+    dropPercentage: 5
+  - prefab: {fileID: 1604554900472224324, guid: f85c5fe7e46557a44a51545100a28c3c, type: 3}
+    dropPercentage: 5
+  - prefab: {fileID: 7946695540464534128, guid: 286b3ebf9063d1b4fa7d2acb14489695, type: 3}
+    dropPercentage: 26.6
+  - prefab: {fileID: 7021913161279593451, guid: 58293df6629a1ca41945239608f9b6ba, type: 3}
+    dropPercentage: 30
+  - prefab: {fileID: 2019851316260838503, guid: 652b6f2b6b236e44da76ff8c43307fd4, type: 3}
+    dropPercentage: 30
 --- !u!1 &2100968527171872563
 GameObject:
   m_ObjectHideFlags: 0
