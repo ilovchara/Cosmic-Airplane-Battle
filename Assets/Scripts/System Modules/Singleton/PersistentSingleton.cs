@@ -18,6 +18,4 @@ public class PersistentSingleton<T> : MonoBehaviour where T : Component
 
         DontDestroyOnLoad(gameObject);
     }
-
-
 }

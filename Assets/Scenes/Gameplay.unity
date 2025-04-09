@@ -2850,7 +2850,7 @@ GameObject:
   - component: {fileID: 2012394896}
   - component: {fileID: 2012394897}
   m_Layer: 0
-  m_Name: Global Post Processing Volume
+  m_Name: "Global Post Processing Volume \u540E\u5904\u7406\u6548\u679C"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116025,8 +116025,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7644974410371914584}
-  - {fileID: 998053040871428994}
   - {fileID: 8535708690556443817}
+  - {fileID: 998053040871428994}
   - {fileID: 2658538238650877264}
   - {fileID: 1875210704095102970}
   - {fileID: 8972506088273336441}

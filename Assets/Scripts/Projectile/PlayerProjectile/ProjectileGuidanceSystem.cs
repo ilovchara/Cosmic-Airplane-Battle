@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+// 用于控制导弹（或其他投射物）在飞行过程中追踪目标
 public class ProjectileGuidanceSystem : MonoBehaviour
 {
     // 导弹制导系统

@@ -4,7 +4,6 @@ using UnityEngine;
 public class Enemy : Character
 {
     [SerializeField] int deathEnergyBonus = 3;
-    // 分数
     [SerializeField] int scorePoint = 100;
     [SerializeField] protected int healthFactor ;
     
@@ -32,7 +31,7 @@ public class Enemy : Character
         lootSpawner.Spawn(transform.position);
         base.Die();
     }
-
+    // 检测碰撞 - 消灭玩家
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Player>(out Player player))
@@ -41,7 +40,7 @@ public class Enemy : Character
             Die();
         }
     }
-
+    
     protected virtual void SetHealth()
     {
         maxHealth += (int)(EnemyManager.Instance.WaveNumber / healthFactor);

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+// 敌人的攻击行为 - 激光
 public class EnemyBeam : MonoBehaviour
 {
     [SerializeField] float damage = 50f;

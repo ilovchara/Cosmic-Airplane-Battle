@@ -232,7 +232,7 @@ public class Player : Character
         StopCoroutine(nameof(MoveRangeLimitCoroutine));
         StartCoroutine(SmoothTiltCoroutine(0));
     }
-
+    // 移动
     private IEnumerator MoveCoroutine(float time, Vector2 moveVelocity)
     {
         float t = 0f;
@@ -247,7 +247,7 @@ public class Player : Character
 
         rigidbody.linearVelocity = moveVelocity;
     }
-
+    // 平滑倾斜角度
     private IEnumerator SmoothTiltCoroutine(float targetTilt)
     {
         float currentTilt = transform.eulerAngles.x;
@@ -267,7 +267,7 @@ public class Player : Character
 
         transform.eulerAngles = new Vector3(targetTilt, transform.eulerAngles.y, transform.eulerAngles.z);
     }
-
+    // 限制移动
     private IEnumerator MoveRangeLimitCoroutine()
     {
         while (true)

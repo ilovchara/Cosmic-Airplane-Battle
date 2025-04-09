@@ -7,19 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class Pool
 {
-    /// <summary>
-    /// 预制体（Prefab），即池中管理的对象类型。
-    /// </summary>
     public GameObject Prefab => prefab;
-
-    /// <summary>
-    /// 初始池大小（即预分配的对象数量）。
-    /// </summary>
     public int Size => size;
 
-    /// <summary>
-    /// 运行时池中对象的数量。
-    /// </summary>
     public int RuntimeSize => queue.Count;
 
     [SerializeField] private GameObject prefab; // 预制体对象
@@ -39,7 +29,8 @@ public class Pool
 
         for (var i = 0; i < size; i++)
         {
-            queue.Enqueue(Copy()); // 预创建对象并存入队列
+            // 预创建对象并存入队列
+            queue.Enqueue(Copy()); 
         }
     }
 

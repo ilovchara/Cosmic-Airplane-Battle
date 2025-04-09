@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BossController : EnemyController
@@ -11,33 +10,33 @@ public class BossController : EnemyController
     [SerializeField] float continuousFireDuration = 1.5f;
 
     [Header(" --- Player Detection ---")]
-    [SerializeField] Transform playerDetyectionTransform;
-    [SerializeField] Vector3 palyerDetectionSize;
-    [SerializeField] LayerMask playerLayer;
+    [SerializeField] Transform playerDetyectionTransform; // 玩家检测的Transform
+    [SerializeField] Vector3 palyerDetectionSize; // 玩家检测区域的大小
+    [SerializeField] LayerMask playerLayer; // 玩家层
 
     [Header("--- Beam --- ")]
-    [SerializeField] float beamCooldownTime = 12f;
+    [SerializeField] float beamCooldownTime = 12f; // 激光冷却时间
 
-    bool isBeamReady;
-    // 再动画器中的bool变量 - 使用字符串的方式来链接
+    bool isBeamReady; // 激光是否准备好
+    // 在动画器中的bool变量 - 使用字符串的方式来链接
     int launchBeamID = Animator.StringToHash("launchBeam");
 
-    Animator animator;
+    Animator animator; // 动画控制器
 
-    WaitForSeconds waitForContinuousFireInterval;
-    WaitForSeconds waitForFireInterval;
+    WaitForSeconds waitForContinuousFireInterval; // 连续发射间隔
+    WaitForSeconds waitForFireInterval; // 发射间隔
     // 时间延迟变量 -记录时间
-    WaitForSeconds waitBeamCooldownTime;
+    WaitForSeconds waitBeamCooldownTime; // 激光冷却时间
 
     // 弹匣
-    List<GameObject> magazine;
+    List<GameObject> magazine; // 存储子弹的列表
 
-    AudioData launchSFX;
+    AudioData launchSFX; // 发射音效
     // 发射的音效
-    [SerializeField] AudioData beamChargingSFX;
-    [SerializeField] AudioData beamLaunchSFX;
+    [SerializeField] AudioData beamChargingSFX; // 激光充能音效
+    [SerializeField] AudioData beamLaunchSFX; // 激光发射音效
 
-    Transform playerTransform;
+    Transform playerTransform; // 玩家Transform
 
 
     // --- Unity Methods ---
@@ -71,6 +70,7 @@ public class BossController : EnemyController
 
     // --- Attack Methods ---
 
+    // 激活激光武器
     void ActivateBeamWeapon()
     {
         isBeamReady = false;
@@ -78,6 +78,7 @@ public class BossController : EnemyController
         AudioManager.Instance.PlayRandomSFX(beamChargingSFX);
     }
 
+    // 装载子弹
     void LoadProjectile()
     {
         magazine.Clear();
@@ -105,6 +106,7 @@ public class BossController : EnemyController
         }
     }
 
+    // 随机发射协程
     protected override IEnumerator RandomlyFireCoroutine()
     {
         while (isActiveAndEnabled)
@@ -123,6 +125,7 @@ public class BossController : EnemyController
         }
     }
 
+    // 连续发射协程
     IEnumerator ContinuousFireCoroutine()
     {
         LoadProjectile();
@@ -143,12 +146,14 @@ public class BossController : EnemyController
         muzzleVFX.Stop();
     }
 
+    // 激光冷却协程
     IEnumerator BeamCooldownCoroutine()
     {
         yield return waitBeamCooldownTime;
         isBeamReady = true;
     }
 
+    // 追踪玩家协程
     IEnumerator ChasingPlayerCoroutine()
     {
         while (isActiveAndEnabled)
@@ -161,11 +166,14 @@ public class BossController : EnemyController
 
     // --- Animation Event Methods ---
     // 这里使用动画事件调用
+
+    // 动画事件：发射激光
     void AnimationEventLaunchBeam()
     {
         AudioManager.Instance.PlayRandomSFX(beamLaunchSFX);
     }
 
+    // 动画事件：停止激光
     void AnimationEventStopBeam()
     {
         StopCoroutine(nameof(ChasingPlayerCoroutine)); // 追踪玩家协程 - 停止

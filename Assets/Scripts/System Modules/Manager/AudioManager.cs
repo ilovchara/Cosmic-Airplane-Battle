@@ -42,6 +42,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
 [System.Serializable]
 public class AudioData
 {
-    public AudioClip audioClip; // 音频剪辑
-    public float volume; // 音量
+    public AudioClip audioClip; 
+    public float volume; 
 }
