@@ -4,19 +4,19 @@ using UnityEngine;
 public class AutoDeactivate : MonoBehaviour
 {
     [Header("GameObject Deactivation Settings")]
-    [SerializeField] bool destroyGameObject;
-    [SerializeField] float lifetime = 3f;
+    [SerializeField] bool destroyGameObject; // 是否销毁 GameObject，默认为禁用
+    [SerializeField] float lifetime = 3f; // 对象存在的时间，单位：秒
 
-    private WaitForSeconds waitLifetime;
+    private WaitForSeconds waitLifetime; // 等待指定时间的对象
 
     void Awake()
     {
-        waitLifetime = new WaitForSeconds(lifetime);
+        waitLifetime = new WaitForSeconds(lifetime); // 初始化等待时间对象
     }
 
     void OnEnable()
     {
-        StartCoroutine(DeactivateCoroutine());
+        StartCoroutine(DeactivateCoroutine()); // 启动协程，等待指定时间后禁用或销毁 GameObject
     }
 
     /// <summary>
@@ -25,15 +25,16 @@ public class AutoDeactivate : MonoBehaviour
     /// <returns>返回协程的执行流</returns>
     IEnumerator DeactivateCoroutine()
     {
-        yield return waitLifetime;
+        yield return waitLifetime; // 等待指定的时间
 
+        // 根据设置选择销毁或禁用对象
         if (destroyGameObject)
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // 销毁 GameObject
         }
         else
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(false); // 禁用 GameObject
         }
     }
 }

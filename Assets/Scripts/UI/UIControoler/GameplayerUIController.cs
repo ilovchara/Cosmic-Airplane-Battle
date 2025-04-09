@@ -25,8 +25,9 @@ public class GameplayerUIController : MonoBehaviour
     // 当脚本启用时调用
     void OnEnable()
     {
-        playerInput.onPause += Pause; // 绑定暂停事件
-        playerInput.onUnpause += Unpause; // 绑定恢复事件
+        // 绑定暂停和恢复事件
+        playerInput.onPause += Pause; 
+        playerInput.onUnpause += Unpause;
 
         // 将按钮与对应的点击事件绑定
         ButtonPressedBehavior.buttonFunctionTable.Add(resumeButton.gameObject.name, OnResumeButtonClick);
@@ -37,10 +38,12 @@ public class GameplayerUIController : MonoBehaviour
     // 当脚本禁用时调用
     void OnDisable()
     {
-        playerInput.onPause -= Pause; // 解绑暂停事件
-        playerInput.onUnpause -= Unpause; // 解绑恢复事件
+        // 解绑暂停和恢复事件
+        playerInput.onPause -= Pause; 
+        playerInput.onUnpause -= Unpause;
 
-        ButtonPressedBehavior.buttonFunctionTable.Clear(); // 清空按钮功能表
+        // 清空按钮功能表
+        ButtonPressedBehavior.buttonFunctionTable.Clear(); 
     }
 
     // 暂停游戏

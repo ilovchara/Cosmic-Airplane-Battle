@@ -2,31 +2,32 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 角色类，管理角色的血量、死亡以及与血条的交互。
+/// 角色类，管理角色的血量、死亡逻辑以及与 UI 血条的交互。
+/// 可被玩家或敌人继承扩展。
 /// </summary>
 public class Character : MonoBehaviour
 {
     #region Fields
 
     [Header("Health Settings")]
-    [SerializeField] private GameObject deathVFX; // 死亡效果
-    [SerializeField] protected float maxHealth; // 最大血量
-    [SerializeField] private bool showOnHeadHealthBar = true; // 是否显示头顶血条
+    [SerializeField] private GameObject deathVFX;               // 死亡时的特效对象
+    [SerializeField] protected float maxHealth;                 // 最大血量
+    [SerializeField] private bool showOnHeadHealthBar = true;   // 是否显示头顶血条
 
     [Header("UI Settings")]
-    [SerializeField] private StatsBar onHeadHealthBar; // 头顶血条引用
+    [SerializeField] private StatsBar onHeadHealthBar;          // 头顶血条引用
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioData[] deathSFX; // 死亡音效
+    [SerializeField] private AudioData[] deathSFX;              // 死亡音效数组（备用）
 
-    protected float health; // 当前血量
+    protected float health; // 当前血量值
 
     #endregion
 
     #region Unity Methods
 
     /// <summary>
-    /// 初始化角色状态。
+    /// 初始化角色血量和血条状态。
     /// </summary>
     protected virtual void OnEnable()
     {
@@ -47,7 +48,7 @@ public class Character : MonoBehaviour
     #region Health Management
 
     /// <summary>
-    /// 显示头顶血条。
+    /// 显示头顶血条，并进行初始化。
     /// </summary>
     public void ShowOnHeadHealthBar()
     {
@@ -64,13 +65,14 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// 对角色造成伤害。
+    /// 对角色造成伤害，更新血量并刷新 UI。
+    /// 若血量归零，触发死亡逻辑。
     /// </summary>
     /// <param name="damage">伤害值。</param>
     public virtual void TakeDamage(float damage)
     {
-        // 血条归零时取消显示大血条
-        if(health == 0f) return;
+        if (health == 0f) return; // 已死亡则忽略
+
         health -= damage;
 
         if (showOnHeadHealthBar && gameObject.activeSelf)
@@ -85,9 +87,9 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// 恢复角色的血量。
+    /// 恢复角色血量并刷新 UI。
     /// </summary>
-    /// <param name="value">恢复的血量值。</param>
+    /// <param name="value">恢复值。</param>
     public virtual void RestoreHealth(float value)
     {
         if (health == maxHealth) return;
@@ -101,16 +103,16 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// 处理角色死亡。
+    /// 执行角色死亡逻辑，包括死亡特效、隐藏角色。
     /// </summary>
     public virtual void Die()
     {
         health = 0f;
 
-        // 生成并激活死亡特效
+        // 生成死亡特效
         PoolManager.Release(deathVFX, transform.position);
 
-        // 隐藏角色
+        // 隐藏角色对象
         gameObject.SetActive(false);
     }
 
@@ -121,9 +123,9 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 持续恢复血量的协程。
     /// </summary>
-    /// <param name="waitTime">恢复的间隔时间。</param>
-    /// <param name="percent">每次恢复的百分比。</param>
-    /// <returns>协程枚举器。</returns>
+    /// <param name="waitTime">恢复间隔。</param>
+    /// <param name="percent">每次恢复的最大血量百分比。</param>
+    /// <returns>协程迭代器。</returns>
     protected IEnumerator HealthRegenerateCoroutine(WaitForSeconds waitTime, float percent)
     {
         while (health < maxHealth)
@@ -136,9 +138,9 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 持续造成伤害的协程。
     /// </summary>
-    /// <param name="waitTime">伤害的间隔时间。</param>
-    /// <param name="percent">每次造成的百分比伤害。</param>
-    /// <returns>协程枚举器。</returns>
+    /// <param name="waitTime">伤害间隔。</param>
+    /// <param name="percent">每次造成的最大血量百分比伤害。</param>
+    /// <returns>协程迭代器。</returns>
     protected IEnumerator DamageOverTimeCoroutine(WaitForSeconds waitTime, float percent)
     {
         while (health > 0f)

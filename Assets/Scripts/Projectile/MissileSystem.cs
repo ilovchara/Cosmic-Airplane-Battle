@@ -13,74 +13,68 @@ public class MissileSystem : MonoBehaviour
     private int amount;           // 当前剩余导弹数量
     private bool isReady = true;  // 发射系统是否准备好
 
+    // 初始化导弹数量
     void Awake()
     {
-        amount = defaultAmount;  // 初始化剩余导弹数量
+        amount = defaultAmount;
     }
 
+    // 显示初始导弹数量
     void Start()
     {
-        // 显示初始的导弹数量
         MissileDisplay.UpdateAmountText(amount);
     }
 
-    // 发射导弹的接口
+    // 发射导弹的方法
     public void Launch(Transform muzzleTransform)
     {
-        // 检查是否有剩余导弹且系统是否准备好
+        // 检查导弹数量和冷却状态
         if (amount == 0 || !isReady) return;
 
-        isReady = false;  // 设置系统为不可用，避免连续发射
+        isReady = false;
 
-        // 从对象池释放一个导弹，并播放发射音效
+        // 生成导弹并播放音效
         PoolManager.Release(missilePrefab, muzzleTransform.position);
         AudioManager.Instance.PlayRandomSFX(launchSFX);
 
-        // 减少剩余导弹数量并更新UI显示
+        // 更新数量与UI
         amount--;
         MissileDisplay.UpdateAmountText(amount);
 
-        // 如果导弹用完了，更新UI冷却图像为满
+        // 根据导弹数量决定是否开始冷却
         if (amount == 0)
         {
             MissileDisplay.UpdateCooldownImage(1f);
         }
         else
         {
-            // 否则，开始冷却协程，处理重载时间
             StartCoroutine(CooldownCoroutine());
         }
     }
 
-    // 协程，用于处理导弹的冷却时间
+    // 冷却协程：等待指定时间后恢复发射状态
     private IEnumerator CooldownCoroutine()
     {
         float cooldownValue = cooldownTime;
-        // 从冷却时间开始倒计时，直到为0
         while (cooldownValue > 0f)
         {
-            // 根据剩余冷却时间更新冷却进度条
             MissileDisplay.UpdateCooldownImage(cooldownValue / cooldownTime);
-            
-            // 减少冷却时间 deltatime 是上一帧的时间 一般是一秒
             cooldownValue = Mathf.Max(cooldownValue - Time.deltaTime, 0f);
-
-            yield return null;  
+            yield return null;
         }
         isReady = true;
     }
-    // 拾取获取导弹
+
+    // 拾取导弹时调用，增加数量并更新UI
     public void PickUp()
     {
         amount++;
         MissileDisplay.UpdateAmountText(amount);
-        // 剩下一个就
-        if(amount == 1)
+
+        if (amount == 1)
         {
             MissileDisplay.UpdateCooldownImage(0f);
             isReady = true;
         }
-
     }
-
 }

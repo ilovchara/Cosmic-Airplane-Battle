@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
+    [Header("Object Pool Arrays")]
     [SerializeField] Pool[] enemyPools; // 敌人对象池数组
     [SerializeField] Pool[] playerProjectilePools; // 玩家弹药对象池数组
     [SerializeField] Pool[] enemyProjectilePools; // 敌人弹药对象池数组
     [SerializeField] Pool[] vFXPools; // 特效对象池数组
     [SerializeField] Pool[] lootItemPools; // 掉落物品对象池数组
 
+    [Header("Internal Pool Management")]
     static Dictionary<GameObject, Pool> dictionary; // 用于管理对象池的字典
 
     // 在脚本实例化时调用
@@ -37,7 +39,9 @@ public class PoolManager : MonoBehaviour
     }
     #endif
 
-    // 检查每个对象池的运行时大小是否超过初始大小
+    /// <summary>
+    /// 检查每个对象池的运行时大小是否超过初始大小
+    /// </summary>
     void CheckPoolSize(Pool[] pools)
     {
         foreach (var pool in pools)
@@ -53,7 +57,9 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    // 初始化给定的对象池数组
+    /// <summary>
+    /// 初始化给定的对象池数组
+    /// </summary>
     void Initialize(Pool[] pools)
     {
         foreach (var pool in pools)

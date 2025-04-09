@@ -26,7 +26,7 @@ class LightFade : MonoBehaviour
         // 获取 Light 组件
         light = GetComponent<Light>();
 
-        // 初始化等待对象
+        // 初始化等待对象，用于延迟操作
         waitDelayTime = new WaitForSeconds(delayTime);
     }
 
@@ -50,15 +50,17 @@ class LightFade : MonoBehaviour
         light.intensity = startIntensity;
         light.enabled = true;
 
+        // 变量 t 用于计算淡出的进度
         float t = 0f;
 
         // 在指定的持续时间内逐渐降低光强度
         while (t < fadeDuration)
         {
             t += Time.deltaTime / fadeDuration;
+            // 通过线性插值 (Lerp) 计算当前光强度
             light.intensity = Mathf.Lerp(startIntensity, finalIntensity, t / fadeDuration);
 
-            // 等待下一帧
+            // 等待下一帧继续执行
             yield return null;
         }
 

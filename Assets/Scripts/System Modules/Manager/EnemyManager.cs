@@ -2,39 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// EnemyManager类继承自Singleton<EnemyManager>，确保该类是一个单例，且在游戏中只存在一个实例
+/// <summary>
+/// 敌人管理器（单例模式）
+/// 控制每一波敌人或Boss的生成逻辑，管理敌人对象的生命周期和波数状态。
+/// </summary>
 public class EnemyManager : Singleton<EnemyManager>
 {
+    /// <summary>
+    /// 从敌人列表中随机获取一个敌人（用于追踪或攻击逻辑）
+    /// </summary>
     public GameObject RandomEnemy => enemyList.Count == 0 ? null : enemyList[Random.Range(0, enemyList.Count)];
+
     [Header(" --- UI ---")]
+    [SerializeField] GameObject waveUI; // 波数UI对象，显示当前波数
     public int WaveNumber => waveNumber;
     public float TimeBetweenWaves => timeBetweenWaves;
-    [SerializeField] GameObject waveUI; // 波数UI对象，显示当前波数
 
     [Header(" --- Enemy Spawn Settings ---")]
     [SerializeField] bool spawnEnemy = true; // 是否继续生成敌人
     [SerializeField] GameObject[] enemyPrefabs; // 敌人预制体数组
-    [SerializeField] float timeBetweenSpawns = 1f; // 每次生成敌人之间的时间间隔
-    [SerializeField] float timeBetweenWaves = 1f; // 每波之间的时间间隔
-    [SerializeField] int minEnemyAmount = 4; // 最少敌人数量
-    [SerializeField] int maxEnemyAmount = 10; // 最多敌人数量
+    [SerializeField] float timeBetweenSpawns = 1f; // 每个敌人生成间隔
+    [SerializeField] float timeBetweenWaves = 1f; // 每波生成间隔
+    [SerializeField] int minEnemyAmount = 4; // 每波最少敌人数
+    [SerializeField] int maxEnemyAmount = 10; // 每波最多敌人数
 
-
-    [Header("--- BOSS Settings ---")]
-    [SerializeField] GameObject bossPrefab;
-    [SerializeField] int bossWaveNumber;
+    [Header(" --- BOSS Settings ---")]
+    [SerializeField] GameObject bossPrefab; // Boss预制体
+    [SerializeField] int bossWaveNumber; // 每多少波出现一次Boss
 
     [Header(" --- Internal State ---")]
-    List<GameObject> enemyList;
-    int waveNumber = 1;
-    int enemyAmount;
+    List<GameObject> enemyList; // 当前场上敌人列表
+    int waveNumber = 1;         // 当前波数
+    int enemyAmount;            // 当前波敌人数量
 
-    WaitForSeconds waitTimeBetweenSpawns;
-    WaitForSeconds waitTImeBetweenWaves;
-    WaitUntil waitUntilNoEnemy; // 等待直到没有敌人
+    WaitForSeconds waitTimeBetweenSpawns; // 等待每个敌人之间
+    WaitForSeconds waitTImeBetweenWaves;  // 等待每波之间
+    WaitUntil waitUntilNoEnemy;           // 等待敌人全部死亡
 
     /// <summary>
-    /// 初始化方法，确保在游戏开始时准备好敌人生成相关数据
+    /// 初始化敌人列表和等待对象
     /// </summary>
     protected override void Awake()
     {
@@ -46,9 +52,8 @@ public class EnemyManager : Singleton<EnemyManager>
     }
 
     /// <summary>
-    /// 游戏开始时的协程，负责波数控制与敌人生成
+    /// 启动敌人生成流程，每轮等待再生成新敌人或Boss
     /// </summary>
-    /// <returns>协程的IEnumerator</returns>
     IEnumerator Start()
     {
         while (spawnEnemy && GameManager.GameState != GameState.GameOver)
@@ -62,9 +67,8 @@ public class EnemyManager : Singleton<EnemyManager>
     }
 
     /// <summary>
-    /// 随机生成敌人的协程
+    /// 随机生成敌人或Boss（每bossWaveNumber波生成一次Boss）
     /// </summary>
-    /// <returns>协程的IEnumerator</returns>
     IEnumerator RandomlySpawnCoroutine()
     {
         if (waveNumber % bossWaveNumber == 0)
@@ -78,7 +82,8 @@ public class EnemyManager : Singleton<EnemyManager>
 
             for (int i = 0; i < enemyAmount; i++)
             {
-                enemyList.Add(PoolManager.Release(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]));
+                var enemy = PoolManager.Release(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)]);
+                enemyList.Add(enemy);
                 yield return waitTimeBetweenSpawns;
             }
         }
@@ -88,10 +93,9 @@ public class EnemyManager : Singleton<EnemyManager>
         waveNumber++;
     }
 
-
     /// <summary>
-    /// 从敌人列表中移除指定的敌人
+    /// 从当前敌人列表中移除已死亡的敌人
     /// </summary>
-    /// <param name="enemy">要移除的敌人</param>
+    /// <param name="enemy">要移除的敌人对象</param>
     public void RemoveFromList(GameObject enemy) => enemyList.Remove(enemy);
 }

@@ -7,14 +7,26 @@ using UnityEngine;
 [System.Serializable]
 public class Pool
 {
+    /// <summary>
+    /// 获取对象池中的预制体对象
+    /// </summary>
     public GameObject Prefab => prefab;
+
+    /// <summary>
+    /// 获取对象池的预分配大小
+    /// </summary>
     public int Size => size;
 
+    /// <summary>
+    /// 获取当前队列中已存在的对象数量
+    /// </summary>
     public int RuntimeSize => queue.Count;
 
+    [Header("Object Pool Settings")]
     [SerializeField] private GameObject prefab; // 预制体对象
     [SerializeField] private int size = 1; // 预分配的对象数量
 
+    [Header("Internal Object Pool Management")]
     private Queue<GameObject> queue; // 存储池中对象的队列
     private Transform parent; // 父级对象，用于组织层级结构
 

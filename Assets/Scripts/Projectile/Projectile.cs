@@ -17,18 +17,13 @@ public class Projectile : MonoBehaviour
     [Header("Targeting")]
     protected GameObject target; 
 
-    /// <summary>
-    /// 当脚本组件被启用时调用，例如当GameObject被激活时
-    /// </summary>
+    // 激活时启动移动协程
     protected virtual void OnEnable()
     {
         StartCoroutine(MoveDirectly());
     }
 
-    /// <summary>
-    /// MoveDirectly协程，用于控制子弹的移动
-    /// </summary>
-    /// <returns>协程的IEnumerator</returns>
+    // 控制子弹持续移动的协程
     IEnumerator MoveDirectly()
     {
         while (gameObject.activeSelf)
@@ -38,10 +33,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 当发生2D碰撞时调用
-    /// </summary>
-    /// <param name="collision">碰撞信息</param>
+    // 碰撞检测并处理伤害、特效和音效
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<Character>(out Character character))
@@ -53,7 +45,9 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    // 设置目标对象
     protected void SetTarget(GameObject target) => this.target = target;
-    public void Move() => transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
 
+    // 控制子弹朝指定方向移动
+    public void Move() => transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
 }

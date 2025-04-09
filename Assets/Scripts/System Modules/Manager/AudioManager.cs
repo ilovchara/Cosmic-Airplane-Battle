@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 音频管理器，用于播放音效
 public class AudioManager : PersistentSingleton<AudioManager>
 {
     [Header(" --- Audio Sources ---")]
@@ -11,7 +12,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
     const float MAX_PITCH = 1.1f; // 最高音调
 
     /// <summary>
-    /// 播放单次音效（UI使用）
+    /// 播放指定音效（不改变音调）
     /// </summary>
     /// <param name="audioData">音效数据</param>
     public void PlaySFX(AudioData audioData)
@@ -20,7 +21,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
     }
 
     /// <summary>
-    /// 播放随机音效（循环播放）
+    /// 播放带有随机音调的单个音效（适合循环音效使用）
     /// </summary>
     /// <param name="audioData">音效数据</param>
     public void PlayRandomSFX(AudioData audioData)
@@ -30,7 +31,7 @@ public class AudioManager : PersistentSingleton<AudioManager>
     }
 
     /// <summary>
-    /// 从多个音效中随机播放一个
+    /// 从音效数组中随机选择一个播放（附加随机音调）
     /// </summary>
     /// <param name="audioData">音效数据数组</param>
     public void PlayRandomSFX(AudioData[] audioData)
@@ -42,6 +43,6 @@ public class AudioManager : PersistentSingleton<AudioManager>
 [System.Serializable]
 public class AudioData
 {
-    public AudioClip audioClip; 
-    public float volume; 
+    public AudioClip audioClip;
+    public float volume;
 }
