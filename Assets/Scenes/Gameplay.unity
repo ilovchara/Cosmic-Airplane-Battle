@@ -2549,7 +2549,7 @@ MonoBehaviour:
   minEnemyAmount: 4
   maxEnemyAmount: 10
   bossPrefab: {fileID: 179854057294123768, guid: 6d9a59f63c139fa489766f7447760227, type: 3}
-  bossWaveNumber: 10
+  bossWaveNumber: 1
 --- !u!4 &1736585285
 Transform:
   m_ObjectHideFlags: 0

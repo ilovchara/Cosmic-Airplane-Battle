@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameOverScreen : MonoBehaviour
 {
@@ -59,4 +57,5 @@ public class GameOverScreen : MonoBehaviour
     {
         input.EnableGameOverScreenInput(); // 启用游戏结束画面的输入
     }
+    
 }

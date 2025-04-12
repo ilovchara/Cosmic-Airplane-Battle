@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 // 敌人子弹类，继承自基类 Projectile
+// 普通子弹类
 public class EnemyProjectile : Projectile
 {
     // 在对象初始化时设置朝向

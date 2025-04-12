@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-// 让游戏对象自动旋转的类
+// 让游戏对象自动旋转的类 - 控制掉落物的旋转
 public class AutoRotate : MonoBehaviour
 {
     // 旋转速度，单位为度每秒

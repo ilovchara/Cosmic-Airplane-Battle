@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+// 实现后处理光照的类
 class LightFade : MonoBehaviour
 {
     // 淡出持续时间

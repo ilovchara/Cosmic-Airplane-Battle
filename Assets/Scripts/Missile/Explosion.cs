@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
+// 导弹爆炸检测
 public class Explosion : MonoBehaviour
 {
     [SerializeField] float explosionDamage = 100f; // 爆炸伤害

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+// 实现带轨迹的玩家子弹，在击中时为玩家恢复能量。
 public class PlayerProjectile : Projectile
 {
     TrailRenderer trail;

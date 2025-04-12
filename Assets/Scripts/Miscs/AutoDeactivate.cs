@@ -1,6 +1,10 @@
 using System.Collections;
 using UnityEngine;
-
+/// <summary>
+/// 自动回收系统
+/// </summary> <summary>
+/// 
+/// </summary>
 public class AutoDeactivate : MonoBehaviour
 {
     [Header("GameObject Deactivation Settings")]
