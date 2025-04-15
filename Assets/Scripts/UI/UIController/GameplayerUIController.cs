@@ -13,7 +13,6 @@ public class GameplayerUIController : MonoBehaviour
 
     [Header(" --- PLAYER INPUT ---")]
     [SerializeField] Button resumeButton; // 恢复按钮
-    [SerializeField] Button optionsButton; // 选项按钮
     [SerializeField] Button mainMenuButton; // 主菜单按钮
 
     [Header(" == AUDIO DATA == ")]
@@ -31,7 +30,6 @@ public class GameplayerUIController : MonoBehaviour
 
         // 将按钮与对应的点击事件绑定
         ButtonPressedBehavior.buttonFunctionTable.Add(resumeButton.gameObject.name, OnResumeButtonClick);
-        ButtonPressedBehavior.buttonFunctionTable.Add(optionsButton.gameObject.name, OnOptionsButtonClick);
         ButtonPressedBehavior.buttonFunctionTable.Add(mainMenuButton.gameObject.name, OnMainMenuButtonClick);
     }
 
@@ -76,13 +74,6 @@ public class GameplayerUIController : MonoBehaviour
         resumeButton.Select(); // 选择恢复按钮
         resumeButton.animator.SetTrigger(ButtonPressedBehaviorID); // 触发按钮按下动画
         AudioManager.Instance.PlaySFX(unpauseSFX); // 播放恢复音效
-    }
-
-    // 选项按钮点击事件
-    void OnOptionsButtonClick()
-    {
-        UIInput.Instance.SelectUI(optionsButton); // 选择选项按钮
-        playerInput.EnablePauseMenuInput(); // 启用暂停菜单输入
     }
 
     // 主菜单按钮点击事件
