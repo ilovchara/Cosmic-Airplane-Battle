@@ -5083,7 +5083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 20
   moveDirection: {x: 1, y: 0}
-  damage: 1
+  damage: 3
   hitVFX: {fileID: 5060298685065931927, guid: e5ad727d78baa394ca4cda0a88e9a060, type: 3}
   hitSFX:
   - audioClip: {fileID: 8300000, guid: 75adfe9a619833445a701305b983e548, type: 3}

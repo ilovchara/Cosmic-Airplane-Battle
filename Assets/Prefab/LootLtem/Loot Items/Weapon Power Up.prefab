@@ -137,10 +137,10 @@ MonoBehaviour:
   maxSpeed: 15
   defaultPickUpSFX:
     audioClip: {fileID: 8300000, guid: 38d3eae6efaa12e49af0352ec20699b3, type: 3}
-    volume: 0
+    volume: 1
   fullHealthPickupSFX:
     audioClip: {fileID: 8300000, guid: f1f64d3627ad7e94dbeac15c040899b0, type: 3}
-    volume: 0
+    volume: 1
   fullPowerPickUpSFX:
     audioClip: {fileID: 8300000, guid: 38d3eae6efaa12e49af0352ec20699b3, type: 3}
     volume: 1

@@ -148,5 +148,5 @@ MonoBehaviour:
     volume: 1
   fullHealthPickupSFX:
     audioClip: {fileID: 8300000, guid: 6e444225a0ed6bb44a93fe9ecc48e3dc, type: 3}
-    volume: 0
+    volume: 1
   scoreBonus: 100
