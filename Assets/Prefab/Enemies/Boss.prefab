@@ -234,9 +234,9 @@ MonoBehaviour:
   onHeadHealthBar: {fileID: 490493384650597572}
   deathSFX:
   - audioClip: {fileID: 8300000, guid: 9314f85ef4c5ea04a87a0323c78fdd2e, type: 3}
-    volume: 1
+    volume: 0.8
   - audioClip: {fileID: 8300000, guid: 0f2184b0c1d094741b11e8f4077c52e9, type: 3}
-    volume: 1
+    volume: 0.8
   deathEnergyBonus: 100
   scorePoint: 1000
   healthFactor: 50
