@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // 引入 UI 命名空间
+using UnityEngine.SceneManagement; // 引入场景管理命名空间
 
 public class AudioManager : PersistentSingleton<AudioManager>
 {
@@ -20,11 +21,32 @@ public class AudioManager : PersistentSingleton<AudioManager>
         // 设置初始音量
         SetVolume(defaultVolume);
 
-        // 如果拖入了 slider，则绑定监听事件
-        if (volumeSlider != null)
+        // 尝试通过名称查找音量滑动条并绑定监听事件
+        Slider slider = GameObject.Find("SFXSlider")?.GetComponent<Slider>();
+        if (slider != null)
         {
+            volumeSlider = slider;
             volumeSlider.value = defaultVolume;
             volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
+
+        // 监听场景加载事件
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // 场景加载完成后的回调
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu") // 如果当前场景是 MainMenu
+        {
+            // 尝试再次查找音量滑动条并绑定监听事件
+            Slider slider = GameObject.Find("SFXSlider")?.GetComponent<Slider>();
+            if (slider != null)
+            {
+                volumeSlider = slider;
+                volumeSlider.value = defaultVolume;
+                volumeSlider.onValueChanged.AddListener(SetVolume);
+            }
         }
     }
 
@@ -59,6 +81,12 @@ public class AudioManager : PersistentSingleton<AudioManager>
     public float GetVolume()
     {
         return sfxPlayer.volume;
+    }
+
+    // 确保在销毁时移除监听
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
 
